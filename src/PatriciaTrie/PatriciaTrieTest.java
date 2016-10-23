@@ -3,8 +3,10 @@ import java.util.Scanner;
 
 public class PatriciaTrieTest {
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+    private static Scanner scan;
+
+	public static void main(String[] args) {
+        scan = new Scanner(System.in);
         PatriciaTrie pt = new PatriciaTrie();
         System.out.println("Patricia Trie Test\n");
 
@@ -14,17 +16,29 @@ public class PatriciaTrieTest {
             System.out.println("\nPatricia Trie Operations\n");
             System.out.println("1. inserer");
             System.out.println("2. chercher");
-            int choice = scan.nextChar();
+            System.out.println("3. supprimer");
+            System.out.println("4. auto-test");
+            String choice = scan.next();
 
             switch (choice) {
-                case 1 :
+                case "1" :
                     System.out.println("Entrée l'élément à inserer");
-                    pt.insert( scan.nextLine(); );
+                    pt.inserer( pt, scan.nextLine());
                     break;
 
-                case 2 :
+                case "2" :
                     System.out.println("Entrée le mot recherché");
-                    System.out.println("Résultat : "+ pt.search( scan.nextLine(); ));
+                    System.out.println("Résultat : "+ pt.rechercher(pt, scan.nextLine()));
+                    break;
+                    
+                case "3" :
+                    System.out.println("Entrée le mot à supprimé");
+                    System.out.println("Résultat : "+ pt.supprimer(pt, scan.nextLine()));
+                    break;
+                    
+                case "4" :
+                    System.out.println("Lancement de l'auto test");
+                    System.out.println("Résultat : TODO");
                     break;
 
                 default :

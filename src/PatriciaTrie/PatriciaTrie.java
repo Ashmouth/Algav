@@ -1,57 +1,127 @@
 package PatriciaTrie;
-import java.util.List;
-import java.nio.charset.Charset;
+import java.util.Deque;
 
 class PatriciaTrie {
-    private final Charset UTF8_CHARSET = Charset.forName("UTF-8");
-    private static byte chars[];
-    private byte finmot = (byte)20;
-    private PatriciaTrie sous_arbre[];
-    private List<String> prefixes;
-    private List<PatriciaTrie> prefixes_arbre;
+    private String data;
+    private Deque<PatriciaTrie> sous_arbres;
 
     public PatriciaTrie() {
-        int i;
-        sous_arbre = new PatriciaTrie[128];
-        for(i = 0; i < 128; i++) {
-            sous_arbre[i] = null;
+        data = null;
+        sous_arbres = null;
+    }
+
+    public PatriciaTrie(String mot) {
+        data = mot;
+        sous_arbres = null;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getPrefixe(String str1, String str2){
+        for (int i = 0; i < str2.length(); i++) {
+            String tmp = str2.substring(0, i);
+            if (str1.contains(tmp)) {
+                return tmp;
+            }
         }
-
-        prefixes = null;
-        prefixes_arbre = null;
+        return null;
     }
 
-    public void initchars() {
-        int i;
-        chars = new byte[128];
-        for(i = 0; i < 128; i++) {
-            chars[i] = (byte)i;
+    public Deque<PatriciaTrie> getSubTree() {
+        return sous_arbres;
+    }
+
+    public void addAllSuf(String suffix) {
+        for(PatriciaTrie sous_arbre : this.getSubTree()) {
+            String gdata = sous_arbre.getData();
+            sous_arbre.setData(suffix.concat(gdata));
         }
-    }
-
-    String decodeUTF8(byte[] bytes) {
-        return new String(bytes, UTF8_CHARSET);
-    }
-
-    byte[] encodeUTF8(String string) {
-        return string.getBytes(UTF8_CHARSET);
     }
 
     public boolean rechercher(PatriciaTrie arbre, String mot) {
-        if ((mot == null) && (sous_arbre[finmot] != null)) {
+        String prefixe = sous_arbres.getFirst().getData();
+        if ((mot == null) && (prefixe == " ")) {
             return true;
-        } else if ((mot == null) || (sous_arbre[finmot] != null)) {
+        } else if ((mot == null) || (prefixe == " ")) {
             return false;
         } else {
-            int i = 0;
-            for (String prefixe : prefixes) {
+            for (PatriciaTrie sous_arbre : sous_arbres) {
+                prefixe = sous_arbre.getData();
                 if (mot.contains(prefixe)) {
-                    return rechercher(prefixes_arbre.get(i),
+                    return rechercher(sous_arbre,
                             mot.substring(prefixe.length()));
                 }
-                i++;
             }
             return false;
+        }
+    }
+
+    public PatriciaTrie inserer(PatriciaTrie arbre, String mot) {
+        String prefixe = sous_arbres.getFirst().getData();
+        if ((mot == null) && (prefixe == " ")) {
+            return arbre;
+        } else if ((mot == null) && (prefixe != " ")) {
+            PatriciaTrie pt = new PatriciaTrie(" ");
+            sous_arbres.addFirst(pt);
+            return arbre;
+        } else {
+            for (PatriciaTrie sous_arbre : sous_arbres) {
+                prefixe = sous_arbre.getData();
+                if (mot.contains(prefixe)) {
+                    return inserer(sous_arbre,
+                            mot.substring(prefixe.length()));
+                } else {
+                    String prf = getPrefixe(mot, prefixe);
+                    if (prf != null){
+                        int len = prefixe.length();
+                        String racine = prefixe.substring(0, len - prf.length());
+                        String suffix = prefixe.substring(len - prf.length(), len);
+                        sous_arbre.addAllSuf(suffix);
+                        sous_arbre.setData(racine);
+                        return inserer(sous_arbre,
+                                mot.substring(prefixe.length()));
+                    }
+                }
+            }
+            PatriciaTrie pt = new PatriciaTrie(mot);
+            sous_arbres.addLast(pt);
+            return arbre;
+        }
+    }
+
+    public PatriciaTrie supprimer(PatriciaTrie arbre, String mot) {
+        String prefixe = sous_arbres.getFirst().getData();
+        if ((mot == null) && (prefixe == " ")) {
+            sous_arbres.removeFirst();
+            return arbre;
+        } else if ((mot == null) && (prefixe != " ")) {
+            return arbre;
+        } else {
+            for (PatriciaTrie sous_arbre : sous_arbres) {
+                prefixe = sous_arbre.getData();
+                if (mot.contains(prefixe)) {
+                    return supprimer(sous_arbre,
+                            mot.substring(prefixe.length()));
+                } else {
+                    String prf = getPrefixe(mot, prefixe);
+                    if (prf != null){
+                        int len = prefixe.length();
+                        String racine = prefixe.substring(0, len - prf.length());
+                        String suffix = prefixe.substring(len - prf.length(), len);
+                        sous_arbre.addAllSuf(suffix);
+                        sous_arbre.setData(racine);
+                        return supprimer(sous_arbre,
+                                mot.substring(prefixe.length()));
+                    }
+                }
+            }
+            return arbre;
         }
     }
 }
