@@ -19,17 +19,9 @@ class PatriciaTrie {
     public HashMap<String, PatriciaTrie> getChilds() {
         return childs;
     }
-    
-    public void setChilds(HashMap<String, PatriciaTrie> hm) {
-        childs = hm;
-    }
 
 	public String getData() {
 		return data;
-	}
-	
-	public void setData (String d) {
-		data = d;
 	}
 
     public String getPrefix(String str1, String str2) {
@@ -49,7 +41,7 @@ class PatriciaTrie {
     		System.out.println("key = " + k);
     		PatriciaTrie child = tmp.get(k);
     		if (child != null) {
-    			System.out.println("fils de " + k + " data = "+ pt.getData() +" = ");
+    			System.out.println("fils de " + k + " data = "+ getData() +" = ");
     			printPtree(child);
     			System.out.println("Fin des fils de " + k);
     		}
@@ -108,6 +100,7 @@ class PatriciaTrie {
     	if ((word.equals(ptdata)) && (ptchilds.containsKey(endword) == true)) {
     		return ptree;
     	} else if (word.equals(ptdata)) {
+    		System.out.println("EMP");
     		PatriciaTrie endtree = new PatriciaTrie(endword);
     		ptchilds.put(endword, endtree);
     		return ptree;
@@ -129,19 +122,25 @@ class PatriciaTrie {
     			
     		//Cas non-racine
     		} else {
+    			System.out.println("w d "+ word + " " + ptdata);
     			
     			//Cas word est une parti de data
     			if(ptdata.contains(word)) {
     				String suffix = ptdata.substring(word.length(), ptdata.length());
-    				
-    				PatriciaTrie oldkey = new PatriciaTrie(suffix);
+
+    				HashMap<String, PatriciaTrie> newchild = 
+    						new HashMap<String, PatriciaTrie>();
+    				HashMap<String, PatriciaTrie> oldchild = 
+    						new HashMap<String, PatriciaTrie>();
+
+    				PatriciaTrie resval = new PatriciaTrie(endword);
+    				PatriciaTrie oldkey = 
+    						new PatriciaTrie(oldchild, suffix);
     				cloneAll(ptree, oldkey);
-    				
-    				ptchilds.put(endword, null);
-    				ptchilds.put(suffix.substring(0, 1), oldkey);
-    				
-    				ptree.setData(word);
-    				insert(ptchilds.get(suffix.substring(0, 1)), suffix);
+
+    				newchild.put(endword, resval);
+    				newchild.put(suffix.substring(0, 1), oldkey);
+    				ptree = new PatriciaTrie(newchild, word);
     				return ptree;
     			}
     			
@@ -150,11 +149,9 @@ class PatriciaTrie {
     				String suffix = word.substring(ptdata.length(), word.length());
     				if(ptchilds.containsKey(suffix.substring(0, 1))) {
     					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
-    					return ptree;
     				} else {
     					PatriciaTrie resval = new PatriciaTrie(suffix);
     					ptchilds.put(suffix.substring(0, 1), resval);
-    					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     					return ptree;
     				}
     			}
@@ -164,16 +161,21 @@ class PatriciaTrie {
     			String suffixw = word.substring(prefix.length(), word.length());
     			String suffixd = ptdata.substring(prefix.length(), ptdata.length());
 
-    			PatriciaTrie ptsufw = new PatriciaTrie(suffixw);
-    			PatriciaTrie ptsufd = new PatriciaTrie(suffixd);
+    			HashMap<String, PatriciaTrie> newchild = 
+    					new HashMap<String, PatriciaTrie>();
+    			HashMap<String, PatriciaTrie> childd = 
+    					new HashMap<String, PatriciaTrie>();
 
+    			PatriciaTrie ptsufw = new PatriciaTrie(suffixw);
+    			PatriciaTrie ptsufd = 
+    					new PatriciaTrie(childd, suffixd);
     			cloneAll(ptree, ptsufd);
     			insert(ptsufw, suffixw);
-    			insert(ptsufd, suffixd);
-    			
-    			ptchilds.put(suffixd.substring(0, 1), ptsufd);
-    			ptchilds.put(suffixw.substring(0, 1), ptsufw);
-    			ptree.setData(prefix);
+
+    			System.out.println("psr="+prefix+","+suffixw+","+suffixd);
+    			newchild.put(suffixd.substring(0, 1), ptsufd);
+    			newchild.put(suffixw.substring(0, 1), ptsufw);
+    			ptree = new PatriciaTrie(newchild, prefix);
     			
     			return ptree;
     		}

@@ -130,28 +130,40 @@ class PatriciaTrie {
     		//Cas non-racine
     		} else {
     			
+    			
     			//Cas word est une parti de data
     			if(ptdata.contains(word)) {
+    				System.out.println("word in data w d "+ word + " " + ptdata);
     				String suffix = ptdata.substring(word.length(), ptdata.length());
-    				
+
+    				//TODO ERROR
+    				//PatriciaTrie resval = new PatriciaTrie(endword);
     				PatriciaTrie oldkey = new PatriciaTrie(suffix);
     				cloneAll(ptree, oldkey);
     				
     				ptchilds.put(endword, null);
     				ptchilds.put(suffix.substring(0, 1), oldkey);
     				
+    				//insert(ptchilds.get(endword), endword);
+        			//insert(ptchilds.get(suffix.substring(0, 1)), suffix);
+    				
+    				//ptree = new PatriciaTrie(word);
     				ptree.setData(word);
+    				//insert(ptree, word);
     				insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     				return ptree;
     			}
     			
     			//Cas data est une parti de word
     			if(word.contains(ptdata)) {
+    				System.out.println("data in word w d "+ word + " " + ptdata);
     				String suffix = word.substring(ptdata.length(), word.length());
     				if(ptchilds.containsKey(suffix.substring(0, 1))) {
+    					System.out.println("if");
     					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     					return ptree;
     				} else {
+    					System.out.println("else");
     					PatriciaTrie resval = new PatriciaTrie(suffix);
     					ptchilds.put(suffix.substring(0, 1), resval);
     					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
@@ -160,17 +172,20 @@ class PatriciaTrie {
     			}
     			
     			//Cas data et word on deux suffix différents
+    			System.out.println("word != data w d "+ word + " " + ptdata);
     			String prefix = getPrefix(ptdata, word);
     			String suffixw = word.substring(prefix.length(), word.length());
     			String suffixd = ptdata.substring(prefix.length(), ptdata.length());
 
     			PatriciaTrie ptsufw = new PatriciaTrie(suffixw);
     			PatriciaTrie ptsufd = new PatriciaTrie(suffixd);
-
+    			//rest disparais
     			cloneAll(ptree, ptsufd);
     			insert(ptsufw, suffixw);
     			insert(ptsufd, suffixd);
-    			
+
+    			System.out.println("psr="+prefix+","+suffixw+","+suffixd);
+    			//TODO ERROR
     			ptchilds.put(suffixd.substring(0, 1), ptsufd);
     			ptchilds.put(suffixw.substring(0, 1), ptsufw);
     			ptree.setData(prefix);
