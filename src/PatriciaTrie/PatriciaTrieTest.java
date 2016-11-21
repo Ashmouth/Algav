@@ -15,12 +15,12 @@ public class PatriciaTrieTest {
         chaine = chaine.replace(",", "");
         
         //test
-        String newchaine = chaine.replaceAll((chaine.split(" ")[0]), "");
-        String[] tmptest = newchaine.split(" ");
-        System.out.println(tmptest.length);
-        for(String s : tmptest){
-        	System.out.println(s);
-        }
+//        String newchaine = chaine.replaceAll((chaine.split(" ")[0]), "");
+//        String[] tmptest = newchaine.split(" ");
+//        System.out.println(tmptest.length);
+//        for(String s : tmptest){
+//        	System.out.println(s);
+//        }
         
         chaine = chaine.toLowerCase();
         String[] tmp = chaine.split(" ");
@@ -69,6 +69,7 @@ public class PatriciaTrieTest {
                     pt.insert(pt, "arbuste");
                     pt.printPtree(pt);
                     System.out.println("Résultat : " + pt.search(pt, "arbre"));
+                    pt.AllWord(pt);
                     break;
                     
                 case "5" :

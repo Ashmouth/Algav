@@ -66,38 +66,64 @@ class PatriciaTrie {
     public boolean search(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String ptdata = ptree.getData();
-    	if ((word == ptdata) && (ptchilds.containsKey(endword) == true)) {
+    	String first = word.substring(0, 1);
+    	
+    	//Cas de base
+    	if ((word.equals(ptdata)) && (ptchilds.containsKey(endword) == true)) {
     		return true;
-    	} else if (word == ptdata) {
+    	} else if (word.equals(ptdata)) {
     		return false;
-    	} else {
-    		String tmp = word.substring(0, 1);
+    		
+    	//Cas racine
+    	} else if (ptdata.equals(endword)) {
+    		if (ptchilds.containsKey(first)) {
+    			return search(ptchilds.get(first), word);
+    		} else {
+    			return false;
+    		}
+    		
+    		//Cas Récursif
+    	} else if (word.startsWith(ptdata)) {
+    		String nword = word.substring(ptdata.length(), word.length());
+    		String tmp = nword.substring(0, 1);
     		if(ptchilds.containsKey(tmp)) {
-    			return search(ptchilds.get(tmp),
-    					word.substring(1, word.length()));
+    			return search(ptchilds.get(tmp), nword);
     		}
     	}
     	System.out.println("FAIL");
     	return false;
     }
     
-    public PatriciaTrie delete(PatriciaTrie ptree, String word) {
+    public boolean delete(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String ptdata = ptree.getData();
-    	if ((word == ptdata) && (ptchilds.containsKey(endword) == true)) {
+    	String first = word.substring(0, 1);
+    	
+    	//Cas de base
+    	if ((word.equals(ptdata)) && (ptchilds.containsKey(endword) == true)) {
     		ptchilds.remove(endword);
-            return ptree;
-    	} else if (word == ptdata) {
-    		return ptree;
-    	} else {
-    		String tmp = word.substring(0, 1);
+    		return true;
+    	} else if (word.equals(ptdata)) {
+    		return false;
+    		
+    	//Cas racine
+    	} else if (ptdata.equals(endword)) {
+    		if (ptchilds.containsKey(first)) {
+    			return delete(ptchilds.get(first), word);
+    		} else {
+    			return false;
+    		}
+    		
+    		//Cas Récursif
+    	} else if (word.startsWith(ptdata)) {
+    		String nword = word.substring(ptdata.length(), word.length());
+    		String tmp = nword.substring(0, 1);
     		if(ptchilds.containsKey(tmp)) {
-    			return delete(ptchilds.get(tmp),
-                		word.substring(1, word.length()));
+    			return delete(ptchilds.get(tmp), nword);
     		}
     	}
     	System.out.println("FAIL");
-    	return ptree;
+    	return false;
     }
     
     public PatriciaTrie insert(PatriciaTrie ptree, String word) {
@@ -116,7 +142,7 @@ class PatriciaTrie {
     		String first = word.substring(0, 1);
     		
     		//Cas racine
-    		if (ptdata == endword) {
+    		if (ptdata.equals(endword)) {
     			if (ptchilds.containsKey(first)) {
     				insert(ptchilds.get(first), word);
     				return ptree;
@@ -218,6 +244,54 @@ class PatriciaTrie {
     		if(ptchilds.get(key) != null) {
                 AllWord(ptchilds.get(key), "");
             }
+    	}
+    }
+    
+    public PatriciaTrie copy(PatriciaTrie ptree) {
+    	PatriciaTrie nptree = 
+    			new PatriciaTrie(ptree.getChilds(), ptree.getData());
+    	if(ptree.getChilds() != null){
+    		for(String s : nptree.getChilds().keySet()){
+    			nptree.getChilds().put(s, copy(ptree.getChilds().get(s)));
+    		}
+    	}
+    	return nptree;
+    }
+    
+    public PatriciaTrie fusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
+    	PatriciaTrie nptree1 = copy(ptree1);
+    	PatriciaTrie nptree2 = copy(ptree2);
+    	return subfusion(nptree1, nptree2);
+    }
+
+    public PatriciaTrie subfusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
+    	HashMap<String, PatriciaTrie> ptchilds1 = ptree1.getChilds();
+    	String ptdata1 = ptree1.getData();
+    	HashMap<String, PatriciaTrie> ptchilds2 = ptree2.getChilds();
+    	String ptdata2 = ptree2.getData();
+    	
+    	//Cas Initiale
+    	if(ptdata1.equals(ptdata2)){
+    		
+    		//Cas Récurssif
+        	for (String s : ptchilds2.keySet()){
+        		if(ptchilds1.containsKey(s)){
+        			subfusion(ptchilds1.get(s), ptchilds2.get(s));
+        		} else {
+        			ptchilds1.put(s, ptchilds2.get(s));
+        		}
+        	}
+        	return ptree1;
+    	} else {
+    	
+    		//Cas Récurssif
+    		String prefix = getPrefix(ptdata1, ptdata2);
+    		String suffix1 = ptdata1.substring(prefix.length(), ptdata1.length());
+    		String suffix2 = ptdata2.substring(prefix.length(), ptdata2.length());
+    		insert(ptree1, suffix1);
+    		insert(ptree2, suffix2);
+        	subfusion(ptree1, ptree2);
+    		return ptree1;	
     	}
     }
 
