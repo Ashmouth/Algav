@@ -156,8 +156,10 @@ class PatriciaTrie {
     		//Cas non-racine
     		} else {
     			
+    			System.out.println("pt w " + ptdata + " " + word);
+    			
     			//Cas word est une parti de data
-    			if(ptdata.contains(word)) {
+    			if(ptdata.startsWith(word)) {
     				String suffix = ptdata.substring(word.length(), ptdata.length());
     				
     				PatriciaTrie oldkey = new PatriciaTrie(suffix);
@@ -172,7 +174,8 @@ class PatriciaTrie {
     			}
     			
     			//Cas data est une parti de word
-    			if(word.contains(ptdata)) {
+    			if(word.startsWith(ptdata)) {
+    				System.out.println("Pouet");
     				String suffix = word.substring(ptdata.length(), word.length());
     				if(ptchilds.containsKey(suffix.substring(0, 1))) {
     					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
@@ -259,9 +262,8 @@ class PatriciaTrie {
     }
     
     public PatriciaTrie fusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
-    	PatriciaTrie nptree1 = copy(ptree1);
     	PatriciaTrie nptree2 = copy(ptree2);
-    	return subfusion(nptree1, nptree2);
+    	return subfusion(ptree1, nptree2);
     }
 
     public PatriciaTrie subfusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
@@ -285,13 +287,10 @@ class PatriciaTrie {
     	} else {
     	
     		//Cas Récurssif
-    		String prefix = getPrefix(ptdata1, ptdata2);
-    		String suffix1 = ptdata1.substring(prefix.length(), ptdata1.length());
-    		String suffix2 = ptdata2.substring(prefix.length(), ptdata2.length());
-    		insert(ptree1, suffix1);
-    		insert(ptree2, suffix2);
-        	subfusion(ptree1, ptree2);
-    		return ptree1;	
+    		insert(ptree1, ptdata2);
+    		insert(ptree2, ptdata1);
+    		subfusion(ptree1, ptree2);
+    		return ptree1;
     	}
     }
 
