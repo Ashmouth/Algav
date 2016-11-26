@@ -1,7 +1,6 @@
 package PatriciaTrie;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Scanner;
+import java.io.File;
 
 public class PatriciaTrieTest {
 
@@ -20,7 +19,7 @@ public class PatriciaTrieTest {
         
         chaine = chaine.toLowerCase();
         String[] tmp = chaine.split(" ");
-        long startTime, endTime, duration, total;
+        
         
 		setEndsoft(false);
 		
@@ -33,6 +32,7 @@ public class PatriciaTrieTest {
             System.out.println("3. supprimer");
             System.out.println("4. auto-test");
             System.out.println("5. Question 1.3)");
+            System.out.println("6. PatriciaTrie Benchmark");
             String choice = scan.next();
 
             switch (choice) {
@@ -82,31 +82,14 @@ public class PatriciaTrieTest {
                     break;
                     
                 case "6" :
-				BufferedReader br;
-				total = 0;
-				System.out.println("PatriciaTrie Benchmark");
-				System.out.println("_____________________________________________________");
-				try {
-					br = new BufferedReader(new FileReader("./Shakespeare/1henryiv.txt"));
+                	final File f = new File("/home/marco/workspace/Algav/src/Shakespeare/");
+                	System.out.println("PatriciaTrie Benchmark");
+            		System.out.println("_____________________________________________________");
+            		    for (final File fileEntry : f.listFiles()) {
+            		    	pt1.benchmark(fileEntry.getName());
+            		    }
+            		System.out.println("_____________________________________________________");
 				
-                	String line = br.readLine();
-
-                    while (line != null) {
-                    	startTime = System.nanoTime();
-                        pt1.insert(pt1, line);
-                        endTime = System.nanoTime();
-                        duration = (endTime - startTime);
-                        System.out.println(line + " insert in " + duration);
-                        total+=duration;
-                        line = br.readLine();
-                    }
-                    
-				} finally {
-					br.close();
-				}
-				System.out.println("total time = " + total);
-				System.out.println("_____________________________________________________");
-				pt1.AllWord(pt1);
                     break;
                     
                 case "n" :

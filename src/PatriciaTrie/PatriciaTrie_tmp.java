@@ -321,14 +321,14 @@ class PatriciaTrie {
     	}
     }
     
-    public void benchmark(String f) {
+    public void benchmark() {
     	BufferedReader br = null;
     	PatriciaTrie pt1 = new PatriciaTrie("@");
         PatriciaTrie pt2 = new PatriciaTrie("@");
         long startTime, endTime, duration, total;
 		total = 0;
 		try {
-			br = new BufferedReader(new FileReader(f));
+			br = new BufferedReader(new FileReader("/home/marco/workspace/Algav/src/Shakespeare/1henryiv.txt"));
 		
         	String line = br.readLine();
 
@@ -352,16 +352,25 @@ class PatriciaTrie {
 				ex.printStackTrace();
 			}
 		}
-		long build = total;
+		System.out.println("total time = " + total);
+		System.out.println("number of word = " + pt1.CountWord(pt1));
 		System.out.println("total deep = " + pt1.CountDeep(pt1));
 		
 		startTime = System.nanoTime();
 		pt1.insert(pt1, "arbre");
+		endTime = System.nanoTime();
+        duration = (endTime - startTime);
+        System.out.println("arbre insert in " + duration);
+		startTime = System.nanoTime();
         pt1.insert(pt1, "arc");
+        endTime = System.nanoTime();
+        duration = (endTime - startTime);
+        System.out.println("arbre insert in " + duration);
+        startTime = System.nanoTime();
         pt1.insert(pt1, "arbuste");
         endTime = System.nanoTime();
         duration = (endTime - startTime);
-        long insertime = duration;
+        System.out.println("arbre insert in " + duration);
         
         pt2.insert(pt2, "artiste");
         pt2.insert(pt2, "destin");
@@ -370,24 +379,11 @@ class PatriciaTrie {
         pt1.fusion(pt1, pt2);
         endTime = System.nanoTime();
         duration = (endTime - startTime);
-        long fusiontime = duration;
+        System.out.println("artiste, destin and magique fusion in " + duration);
         
-        startTime = System.nanoTime();
         pt1.delete(pt1, "artiste");
-        pt1.delete(pt1, "destin");
-        pt1.delete(pt1, "magique");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long deletetime = duration;
-        
-        System.out.print(f + " | ");
-        System.out.print(build + " | ");
-        System.out.print(insertime + " | ");
-        System.out.print(deletetime + " | ");
-        System.out.print(fusiontime + " | ");
-        System.out.print(pt1.CountWord(pt1) + " | ");
-        System.out.print(pt1.CountDeep(pt1));
-        System.out.println();
+        pt1.delete(pt1, "artiste");
+        pt1.delete(pt1, "artiste");
     }
 
 }
