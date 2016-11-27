@@ -85,8 +85,13 @@ public class PatriciaTrieTest {
                 	final File f = new File("/home/marco/workspace/Algav/src/Shakespeare/");
                 	System.out.println("PatriciaTrie Benchmark");
             		System.out.println("_____________________________________________________");
+            		String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
+                    		+ "%6$-6s | %7$-6s",
+                    		"file", "build", "insert", "delete", "fusion", 
+                    		"nbword", "deep");
+            	    System.out.println(value);
             		    for (final File fileEntry : f.listFiles()) {
-            		    	pt1.benchmark(fileEntry.getName());
+            		    	pt1.benchmark(fileEntry);
             		    }
             		System.out.println("_____________________________________________________");
 				

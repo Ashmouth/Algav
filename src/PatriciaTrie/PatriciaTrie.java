@@ -1,5 +1,6 @@
 package PatriciaTrie;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -124,7 +125,7 @@ class PatriciaTrie {
     			return delete(ptchilds.get(tmp), nword);
     		}
     	}
-    	System.out.println("FAIL");
+    	//System.out.println("FAIL");
     	return false;
     }
     
@@ -321,14 +322,14 @@ class PatriciaTrie {
     	}
     }
     
-    public void benchmark(String f) {
+    public void benchmark(File fileEntry) {
     	BufferedReader br = null;
     	PatriciaTrie pt1 = new PatriciaTrie("@");
         PatriciaTrie pt2 = new PatriciaTrie("@");
         long startTime, endTime, duration, total;
 		total = 0;
 		try {
-			br = new BufferedReader(new FileReader(f));
+			br = new BufferedReader(new FileReader(fileEntry));
 		
         	String line = br.readLine();
 
@@ -353,7 +354,6 @@ class PatriciaTrie {
 			}
 		}
 		long build = total;
-		System.out.println("total deep = " + pt1.CountDeep(pt1));
 		
 		startTime = System.nanoTime();
 		pt1.insert(pt1, "arbre");
@@ -380,14 +380,11 @@ class PatriciaTrie {
         duration = (endTime - startTime);
         long deletetime = duration;
         
-        System.out.print(f + " | ");
-        System.out.print(build + " | ");
-        System.out.print(insertime + " | ");
-        System.out.print(deletetime + " | ");
-        System.out.print(fusiontime + " | ");
-        System.out.print(pt1.CountWord(pt1) + " | ");
-        System.out.print(pt1.CountDeep(pt1));
-        System.out.println();
+        String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
+        		+ "%6$-6s | %7$-6s",
+        		fileEntry.getName(), build, insertime/3, deletetime/3, fusiontime/3, 
+        		pt1.CountWord(pt1), pt1.CountDeep(pt1));
+	    System.out.println(value);
     }
 
 }
