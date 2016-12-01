@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -48,85 +46,101 @@ class PatriciaTrie {
     }
     
     public void printPtree(PatriciaTrie pt) {
+    	displayPtree(pt, 0);
+    }
+    
+    public void displayPtree(PatriciaTrie pt, int deep) {
     	HashMap<String, PatriciaTrie> tmp = pt.getChilds();
+    	String space = new String(new char[deep]).replace('\0', ' ');
     	for (String k : tmp.keySet()) {
-    		System.out.println("key = " + k);
     		PatriciaTrie ptchild = tmp.get(k);
     		if (ptchild != null) {
-    			System.out.println("fils de " + k + " data = "+ pt.getData() +" = ");
-    			printPtree(ptchild);
-    			System.out.println("Fin des fils de " + k);
+    			System.out.println(space + "data = "+ pt.getData() + " fils = " + k);
+    			displayPtree(ptchild, (deep + 1));
     		}
     	}
     }
     
-    public void cloneAll(PatriciaTrie ptree, PatriciaTrie ntree) {
-		HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
-		HashMap<String, PatriciaTrie> ntchilds = ntree.getChilds();
-		ptchilds.putAll(ntchilds);
+    public void cloneAll(PatriciaTrie src, PatriciaTrie dst) {
+		HashMap<String, PatriciaTrie> ptchilds = src.getChilds();
+		HashMap<String, PatriciaTrie> ntchilds = dst.getChilds();
+		
+		for (String key : ptchilds.keySet()) {
+			ntchilds.put(key, ptchilds.get(key));
+		}
+		
 		ptchilds.clear();
+		src.setChilds(ptchilds);
+		dst.setChilds(ntchilds);
 	}
-
+    
     public boolean search(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
-    	String ptdata = ptree.getData();
     	String first = word.substring(0, 1);
     	
-    	//Cas de base
-    	if ((word.equals(ptdata)) && (ptchilds.containsKey(endword) == true)) {
-    		return true;
-    	} else if (word.equals(ptdata)) {
-    		return false;
-    		
-    	//Cas racine
-    	} else if (ptdata.equals(endword)) {
-    		if (ptchilds.containsKey(first)) {
-    			return search(ptchilds.get(first), word);
-    		} else {
-    			return false;
-    		}
-    		
-    		//Cas Récursif
-    	} else if (word.startsWith(ptdata)) {
-    		String nword = word.substring(ptdata.length(), word.length());
-    		String tmp = nword.substring(0, 1);
-    		if(ptchilds.containsKey(tmp)) {
-    			return search(ptchilds.get(tmp), nword);
-    		}
-    	}
-    	System.out.println("FAIL");
+    	if (ptchilds.containsKey(first)) {
+			return subsearch(ptchilds.get(first), word);
+		}
     	return false;
+    }
+    
+    public boolean subsearch(PatriciaTrie ptree, String word) {
+    	
+    	if (ptree == null) {
+    		return false;
+    	}
+    	
+    	String ptdata = ptree.getData();
+    	
+    	if (word.equals(endword) && ptdata.equals(endword)) {
+    		return true;
+    	} else {
+    		HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    		if (word.equals(ptdata)) {
+    			return subsearch(ptchilds.get(endword), endword);
+    		}
+    		if (word.startsWith(ptdata)) {
+    			String suffix = word.substring(ptdata.length(), word.length());
+    			String first = suffix.substring(0, 1);
+    			if (ptchilds.containsKey(first)) {
+    				return subsearch(ptchilds.get(first), suffix);
+    			}
+    		}
+    		System.out.println("Search didn't find :/");
+    		return false;
+    	}
     }
     
     public boolean delete(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
-    	String ptdata = ptree.getData();
     	String first = word.substring(0, 1);
     	
-    	//Cas de base
-    	if ((word.equals(ptdata)) && (ptchilds.containsKey(endword) == true)) {
-    		ptchilds.remove(endword);
-    		return true;
-    	} else if (word.equals(ptdata)) {
-    		return false;
-    		
-    	//Cas racine
-    	} else if (ptdata.equals(endword)) {
-    		if (ptchilds.containsKey(first)) {
-    			return delete(ptchilds.get(first), word);
+    	if (ptchilds.containsKey(first)) {
+			return subdelete(ptchilds.get(first), word);
+		}
+    	return false;
+    }
+    
+    public boolean subdelete(PatriciaTrie ptree, String word) {
+    	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    	String ptdata = ptree.getData();
+    	
+    	if (word.equals(ptdata)) {
+    		if (ptchilds.containsKey(endword)) {
+    			ptchilds.remove(endword);
+    			return true;
     		} else {
-    			return false;
-    		}
-    		
-    		//Cas Récursif
-    	} else if (word.startsWith(ptdata)) {
-    		String nword = word.substring(ptdata.length(), word.length());
-    		String tmp = nword.substring(0, 1);
-    		if(ptchilds.containsKey(tmp)) {
-    			return delete(ptchilds.get(tmp), nword);
+    			return true;
     		}
     	}
-    	//System.out.println("FAIL");
+    	if (word.startsWith(ptdata)) {
+    		String suffix = word.substring(ptdata.length(), word.length());
+    		String first = suffix.substring(0, 1);
+    		if (ptchilds.containsKey(first)) {
+    			return subdelete(ptchilds.get(first), suffix);
+    		}
+    	}
+    	System.out.println("Delete didn't find :/");
     	return false;
     }
     
@@ -148,13 +162,11 @@ class PatriciaTrie {
     		//Cas racine
     		if (ptdata.equals(endword)) {
     			if (ptchilds.containsKey(first)) {
-    				insert(ptchilds.get(first), word);
-    				return ptree;
+    				return insert(ptchilds.get(first), word);
     			} else {
     				PatriciaTrie ntree = new PatriciaTrie(word);
     				ptchilds.put(first, ntree);
-    				insert(ptchilds.get(first), word);
-    				return ptree;
+    				return insert(ptchilds.get(first), word);
     			}
     			
     		//Cas non-racine
@@ -167,25 +179,22 @@ class PatriciaTrie {
     				PatriciaTrie oldkey = new PatriciaTrie(suffix);
     				cloneAll(ptree, oldkey);
     				
-    				ptchilds.put(endword, null);//TODO
+    				ptchilds.put(endword, null);
     				ptchilds.put(suffix.substring(0, 1), oldkey);
     				
     				ptree.setData(word);
-    				insert(ptchilds.get(suffix.substring(0, 1)), suffix);
-    				return ptree;
+    				return insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     			}
     			
     			//Cas data est une parti de word
     			if(word.startsWith(ptdata)) {
     				String suffix = word.substring(ptdata.length(), word.length());
     				if(ptchilds.containsKey(suffix.substring(0, 1))) {
-    					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
-    					return ptree;
+    					return insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     				} else {
     					PatriciaTrie resval = new PatriciaTrie(suffix);
     					ptchilds.put(suffix.substring(0, 1), resval);
-    					insert(ptchilds.get(suffix.substring(0, 1)), suffix);
-    					return ptree;
+    					return insert(ptchilds.get(suffix.substring(0, 1)), suffix);
     				}
     			}
     			
@@ -209,6 +218,7 @@ class PatriciaTrie {
     		}
     	}
     }
+    
 
 	public int CountWord(PatriciaTrie ptree, int res) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
@@ -227,6 +237,7 @@ class PatriciaTrie {
     	return CountWord(ptree, 1);
     }
     
+    
     public int CountDeep(PatriciaTrie ptree, int size) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	int res = size;
@@ -242,8 +253,12 @@ class PatriciaTrie {
     }
     
     public int CountDeep(PatriciaTrie ptree) {
+    	if (ptree.getData().equals(endword)) {
+    		return CountDeep(ptree, 0);
+    	}
     	return CountDeep(ptree, 1);
     }
+    
     
     public void AllWord(PatriciaTrie ptree, String res) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
@@ -280,46 +295,75 @@ class PatriciaTrie {
     	return nptree;
     }
     
+    public void split(PatriciaTrie ptree, String word) {
+    	
+    	String ptdata = ptree.getData();
+    	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    	
+    	//Cas data est une parti de word
+		if(ptdata.startsWith(word)) {
+			String suffix = ptdata.substring(word.length(), ptdata.length());
+			
+			PatriciaTrie oldkey = new PatriciaTrie(suffix);
+			cloneAll(ptree, oldkey);
+			
+			ptchilds.put(suffix.substring(0, 1), oldkey);
+			ptree.setData(word);
+			return;
+		}
+
+		//Cas word est une parti de data
+		if(word.startsWith(ptdata)) {
+			String suffix = word.substring(ptdata.length(), word.length());
+			PatriciaTrie resval = new PatriciaTrie(suffix);
+			ptchilds.put(suffix.substring(0, 1), resval);
+			return;
+		}
+
+    	String prefix = getPrefix(ptdata, word);
+		String suffixw = word.substring(prefix.length(), word.length());
+		String suffixd = ptdata.substring(prefix.length(), ptdata.length());
+
+		PatriciaTrie ptsufw = new PatriciaTrie(suffixw);
+		PatriciaTrie ptsufd = new PatriciaTrie(suffixd);
+
+		cloneAll(ptree, ptsufd);
+		
+		ptchilds.put(suffixd.substring(0, 1), ptsufd);
+		ptchilds.put(suffixw.substring(0, 1), ptsufw);
+		ptree.setData(prefix);
+    }
+    
+    
     public PatriciaTrie fusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
     	PatriciaTrie nptree2 = copy(ptree2);
     	return subfusion(ptree1, nptree2);
     }
-
+    
     public PatriciaTrie subfusion(PatriciaTrie ptree1, PatriciaTrie ptree2) {
-    	
+
     	String ptdata1 = ptree1.getData();
-    	if (ptdata1 == endword) {
-    		return ptree1;
-    	}
     	HashMap<String, PatriciaTrie> ptchilds1 = ptree1.getChilds();
-    	
+
     	String ptdata2 = ptree2.getData();
-    	if (ptdata2 == endword) {
-    		ptchilds1.put(endword, null);
-    		return ptree1;
-    	}
     	HashMap<String, PatriciaTrie> ptchilds2 = ptree2.getChilds();
     	
-    	
     	//Cas Initiale
-    	if(ptdata1.equals(ptdata2)){
-    		
+    	if(ptdata1.equals(ptdata2)) {
     		//Cas Récurssif
-        	for (String s : ptchilds2.keySet()){
-        		if(ptchilds1.containsKey(s)){
-        			subfusion(ptchilds1.get(s), ptchilds2.get(s));
-        		} else {
-        			ptchilds1.put(s, ptchilds2.get(s));
-        		}
-        	}
-        	return ptree1;
-    	} else {
-    	
-    		//Cas Récurssif
-    		insert(ptree1, ptdata2);
-    		insert(ptree2, ptdata1);
-    		subfusion(ptree1, ptree2);
+    		for (String s : ptchilds2.keySet()) {
+    			if(ptchilds1.containsKey(s)) {
+    				subfusion(ptchilds1.get(s), ptchilds2.get(s));
+    			} else {
+    				ptchilds1.put(s, ptchilds2.get(s));
+    			}
+    		}
     		return ptree1;
+    	} else {
+    		
+    		split(ptree1, ptdata2);
+    		split(ptree2, ptdata1);
+    		return subfusion(ptree1, ptree2);
     	}
     }
     
@@ -357,34 +401,42 @@ class PatriciaTrie {
 		long build = total;
 		
 		startTime = System.nanoTime();
-		pt1.insert(pt1, "arbre");
-        pt1.insert(pt1, "arc");
-        pt1.insert(pt1, "arbuste");
+		insert(pt1, "arbre");
+        insert(pt1, "arc");
+        insert(pt1, "arbuste");
         endTime = System.nanoTime();
         duration = (endTime - startTime);
         long insertime = duration;
         
-        pt2.insert(pt2, "artiste");
-        pt2.insert(pt2, "destin");
-        pt2.insert(pt2, "magique");
         startTime = System.nanoTime();
-        pt1.fusion(pt1, pt2);
+		search(pt1, "arbre");
+		search(pt1, "arc");
+		search(pt1, "arbuste");
+        endTime = System.nanoTime();
+        duration = (endTime - startTime);
+        long searchtime = duration;
+        
+        insert(pt2, "artiste");
+        insert(pt2, "destin");
+        insert(pt2, "magique");
+        startTime = System.nanoTime();
+        fusion(pt1, pt2);
         endTime = System.nanoTime();
         duration = (endTime - startTime);
         long fusiontime = duration;
         
         startTime = System.nanoTime();
-        pt1.delete(pt1, "artiste");
-        pt1.delete(pt1, "destin");
-        pt1.delete(pt1, "magique");
+        delete(pt1, "artiste");
+        delete(pt1, "destin");
+        delete(pt1, "magique");
         endTime = System.nanoTime();
         duration = (endTime - startTime);
         long deletetime = duration;
         
         String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
-        		+ "%6$-6s | %7$-6s",
-        		fileEntry.getName(), build, insertime/3, deletetime/3, fusiontime/3, 
-        		pt1.CountWord(pt1), pt1.CountDeep(pt1));
+        		+ " %6$-6s | %7$-6s | %8$-6s",
+        		fileEntry.getName(), build, insertime/3, searchtime/3, deletetime/3, 
+        		fusiontime/3, pt1.CountWord(pt1), pt1.CountDeep(pt1));
 	    System.out.println(value);
     }
 

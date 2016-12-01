@@ -47,22 +47,22 @@ public class MainProjet {
             		break;
             
                 case "1" :
-                    System.out.println("Entrez le mot à inserer");
+                    System.out.println("Entrez le mot ï¿½inserer");
                     scan.nextLine(); //On vide
                     choice = scan.next();
-                    System.out.println("Résultat : "+ pt1.insert(pt1, choice));
+                    System.out.println("Rï¿½sultat : "+ pt1.insert(pt1, choice));
                     break;
 
                 case "2" :
-                    System.out.println("Entrez le mot recherché");
+                    System.out.println("Entrez le mot recherchï¿½");
                     scan.nextLine(); //On vide
-                    System.out.println("Résultat : "+ pt1.search(pt1, scan.next()));
+                    System.out.println("Rï¿½sultat : "+ pt1.search(pt1, scan.next()));
                     break;
 
                 case "3" :
-                    System.out.println("Entrez le mot à supprimer");
+                    System.out.println("Entrez le mot ï¿½ supprimer");
                     scan.nextLine(); //On vide
-                    System.out.println("Résultat : "+ pt1.delete(pt1, scan.nextLine()));
+                    System.out.println("Rï¿½sultat : "+ pt1.delete(pt1, scan.nextLine()));
                     break;
 
                 case "4" :
@@ -75,7 +75,7 @@ public class MainProjet {
                     pt2.insert(pt2, "magique");
                     pt1.fusion(pt1, pt2);
                     pt1.printPtree(pt1);
-                    System.out.println("Résultat : " + pt1.search(pt1, "arbre"));
+                    System.out.println("Rï¿½sultat : " + pt1.search(pt1, "arbre"));
                     pt1.AllWord(pt1);
                     break;
                     
@@ -91,16 +91,19 @@ public class MainProjet {
                     
                 case "6" :
                 	System.out.println("PatriciaTrie Benchmark (en nanoseconde)");
-            		System.out.println("_____________________________________________________");
+            		
+            		String clean = new String(new char[80]).replace('\0', '_');
+            		System.out.println(clean);
+            		
             		String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
-                    		+ "%6$-6s | %7$-6s",
-                    		"file", "build", "insert", "delete", "fusion", 
+                    		+ " %6$-6s | %7$-6s | %8$-6s",
+                    		"file", "build", "insert", "search", "delete", "fusion", 
                     		"nbword", "deep");
             	    System.out.println(value);
             		    for (final File fileEntry : f.listFiles()) {
             		    	pt1.benchmark(fileEntry);
             		    }
-            		System.out.println("_____________________________________________________");
+            		    System.out.println(clean);
 				
                     break;
                     
@@ -109,23 +112,23 @@ public class MainProjet {
                 	break;
                 	
                 case "101" :
-                	System.out.println("Entrez le mot à inserer");
+                	System.out.println("Entrez le mot ï¿½inserer");
                 	scan.nextLine(); //On vide
                     Exemple.ajouterMot(Exemple, scan.nextLine());
-                    System.out.println("Ajout terminé");
+                    System.out.println("Ajout terminï¿½");
                     break;
                     
                 case "102" :
-                	System.out.println("Entrez le mot recherché");
+                	System.out.println("Entrez le mot recherchï¿½");
                 	scan.nextLine(); //On vide
-                    System.out.println("Résultat : "+ Exemple.recherche(Exemple,scan.nextLine()));
+                    System.out.println("Rï¿½sultat : "+ Exemple.recherche(Exemple,scan.nextLine()));
                     break;
                     
                 case "103" :
-                	System.out.println("Entrez le mot à supprimer");
+                	System.out.println("Entrez le mot ï¿½ supprimer");
                 	scan.nextLine(); //On vide
                 	Exemple.suppression(Exemple,scan.nextLine());
-                	System.out.println("Supression terminée");
+                	System.out.println("Supression terminï¿½e");
                     break;
                     
                 case "104" :
@@ -149,10 +152,10 @@ public class MainProjet {
                 	break;
                 	
                 case "109" :
-                	System.out.println("Entrez le préfixe");
+                	System.out.println("Entrez le prï¿½fixe");
                 	scan.nextLine(); //On vide
                     choice = scan.nextLine();
-                	System.out.println(choice+ " est le préfixe de "+Exemple.prefixe(Exemple,choice)+" mots");
+                	System.out.println(choice+ " est le prï¿½fixe de "+Exemple.prefixe(Exemple,choice)+" mots");
                 	break;
                 	
                 case "110" :
@@ -229,13 +232,13 @@ public class MainProjet {
         System.out.println("102. Hybrides : Chercher mot");
         System.out.println("103. Hybrides : Supprimer mot");
         System.out.println("104. Hybrides : Compter nombre de mot");
-        System.out.println("105. Hybrides : Liste triée des mots");
+        System.out.println("105. Hybrides : Liste triï¿½e des mots");
         System.out.println("106. Hybrides : Compter nombre de pointeurs Nil");
         System.out.println("107. Hybrides : Hauteur de l'arbre");
         System.out.println("108. Hybrides : Profondeur moyenne des feuilles de l'arbre");
-        System.out.println("109. Hybrides : Nombre de mot qui contiennent un préfixe");
+        System.out.println("109. Hybrides : Nombre de mot qui contiennent un prï¿½fixe");
         System.out.println("110. Hybrides : Conversion Hybrides => Patricia");
         System.out.println("111. Hybrides : Benchmark");
-        System.out.println("112. Hybrides : Rééquilibrage");
+        System.out.println("112. Hybrides : Rï¿½ï¿½quilibrage");
 	}
 }

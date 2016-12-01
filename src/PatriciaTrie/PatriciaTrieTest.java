@@ -66,8 +66,9 @@ public class PatriciaTrieTest {
                     pt2.insert(pt2, "destin");
                     pt2.insert(pt2, "magique");
                     pt1.fusion(pt1, pt2);
-                    pt1.printPtree(pt1);
-                    System.out.println("Résultat : " + pt1.search(pt1, "arbre"));
+                    pt1.displayPtree(pt1, 0);
+                    //pt1.delete(pt1, "destin");
+                    System.out.println("Résultat : " + pt1.search(pt1, "artiste"));
                     pt1.AllWord(pt1);
                     break;
                     
@@ -76,6 +77,9 @@ public class PatriciaTrieTest {
                     for(String s : tmp){
                     	pt1.insert(pt1, s);
                     }
+                    pt2.insert(pt2, "cacao");
+                    pt1.fusion(pt1, pt2);
+                    //pt1.delete(pt1, "cacao");
                     System.out.println("Nombre de mots = " + pt1.CountWord(pt1));
                     System.out.println("Mots dans l'arbre = ");
                     pt1.AllWord(pt1);
@@ -84,16 +88,19 @@ public class PatriciaTrieTest {
                 case "6" :
                 	final File f = new File("/home/marco/workspace/Algav/src/Shakespeare/");
                 	System.out.println("PatriciaTrie Benchmark");
-            		System.out.println("_____________________________________________________");
+            		
+            		String clean = new String(new char[80]).replace('\0', '_');
+            		System.out.println(clean);
+            		
             		String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
-                    		+ "%6$-6s | %7$-6s",
-                    		"file", "build", "insert", "delete", "fusion", 
+                    		+ " %6$-6s | %7$-6s | %8$-6s",
+                    		"file", "build", "insert", "search", "delete", "fusion", 
                     		"nbword", "deep");
             	    System.out.println(value);
             		    for (final File fileEntry : f.listFiles()) {
             		    	pt1.benchmark(fileEntry);
             		    }
-            		System.out.println("_____________________________________________________");
+            		    System.out.println(clean);
 				
                     break;
                     
