@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class MainProjet {
 
@@ -10,8 +13,9 @@ public class MainProjet {
 	public static void main(String[] args) {
 		
 		String filePath = new File("").getAbsolutePath();
-    	filePath = filePath+"\\src\\Shakespeare";
+    	filePath = filePath+"/src/Shakespeare";
     	final File f = new File(filePath);
+    	System.out.println(f);
 		
         scan = new Scanner(System.in);
         PatriciaTrie pt1 = new PatriciaTrie("@");
@@ -40,7 +44,7 @@ public class MainProjet {
             
             String choice = scan.next();
 
-            switch (choice) {
+			switch (choice) {
             
             	case "0" :
             		pt1.printPtree(pt1);
@@ -74,7 +78,7 @@ public class MainProjet {
                     pt2.insert(pt2, "destin");
                     pt2.insert(pt2, "magique");
                     pt1.fusion(pt1, pt2);
-                    pt1.printPtree(pt1);
+                    pt1.displayPtree(pt1, 0);
                     System.out.println("R�sultat : " + pt1.search(pt1, "arbre"));
                     pt1.AllWord(pt1);
                     break;
@@ -105,6 +109,31 @@ public class MainProjet {
             		    }
             		    System.out.println(clean);
 				
+                    break;
+                    
+                case "7" :
+                	
+            		insertOne(f.listFiles()[0]);
+				
+                    break;
+                    
+                case "8" :
+                	System.out.println("Lancement de l'auto-test avancé");
+                    pt1.insert(pt1, "arbre");
+                    pt1.insert(pt1, "arc");
+                    pt1.insert(pt1, "arbuste");
+                    pt2.insert(pt2, "artiste");
+                    pt2.insert(pt2, "destin");
+                    pt2.insert(pt2, "magique");
+                    pt1.fusion(pt1, pt2);
+                    System.out.println("Medium deep is "+pt1.mediumDeep(pt1));
+                    System.out.println("nb ar prefix is "+pt1.prefix(pt1, "ar"));
+                    NoeudTH demo1 = pt1.patTohyb(pt1);
+                    ArrayList<String> as = demo1.listeMots(demo1);
+                    System.out.println("Pat to Hyb");
+                    for(String s : as) {
+                    	System.out.println(s);
+                    }
                     break;
                     
                 case "100" :
@@ -241,4 +270,40 @@ public class MainProjet {
         System.out.println("111. Hybrides : Benchmark");
         System.out.println("112. Hybrides : R��quilibrage");
 	}
+	
+	public static void insertOne(File fileEntry) {
+    	BufferedReader br = null;
+    	PatriciaTrie pt1 = new PatriciaTrie("@");
+    	NoeudTH demo1 = new NoeudTH();
+    	try {
+			br = new BufferedReader(new FileReader(fileEntry));
+		
+        	String line = br.readLine();
+
+            while (line != null) {
+                pt1.insert(pt1, line);
+                demo1.ajouterMotSilence(demo1, line);
+                line = br.readLine();
+            }
+            
+		} catch (IOException e) {
+			e.printStackTrace();
+            
+		} finally {
+			try {
+				br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+    	System.out.println("PatriciaTrie\n");
+    	pt1.AllWord(pt1);
+
+		System.out.println("\n\n\nHybrideTrie\n");
+    	ArrayList<String> tmp = demo1.listeMots(demo1);
+    	for (String s : tmp) {
+    		System.out.println(s);
+    	}
+    }
+	
 }

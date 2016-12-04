@@ -20,10 +20,51 @@ public class NoeudTH {
 		this.lettre=null;
 	}
 	
-	
 	public NoeudTH(String lettre, NoeudTH pere, boolean b){
 		this.lettre=lettre;
 		if (b) System.out.println("Ajout de lettre constructeur : "+ lettre);
+	}
+	
+	
+	//Getter and Setter
+	public String getLettre() {
+		return lettre;
+	}
+
+	public void setLettre(String lettre) {
+		this.lettre = lettre;
+	}
+
+	public boolean isFinMot() {
+		return finMot;
+	}
+
+	public void setFinMot(boolean finMot) {
+		this.finMot = finMot;
+	}
+
+	public NoeudTH getFils() {
+		return fils;
+	}
+
+	public void setFils(NoeudTH fils) {
+		this.fils = fils;
+	}
+
+	public NoeudTH getFrereDroit() {
+		return frereDroit;
+	}
+
+	public void setFrereDroit(NoeudTH frereDroit) {
+		this.frereDroit = frereDroit;
+	}
+
+	public NoeudTH getFrereGauche() {
+		return frereGauche;
+	}
+
+	public void setFrereGauche(NoeudTH frereGauche) {
+		this.frereGauche = frereGauche;
 	}
 	
 	//Primitives cle
@@ -104,7 +145,7 @@ public class NoeudTH {
 			ajouterMot(arbre.fils,resteString(mot));
 
 		}
-		//Cas lettre a ajouté plus petit (ajout a gauche)
+		//Cas lettre a ajoutï¿½ plus petit (ajout a gauche)
 		else if(premLettre(mot).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche on en ajoute un
 			if(arbre.frereGauche==null){
@@ -174,7 +215,7 @@ public class NoeudTH {
 				ajouterMotSilence(arbre.fils,resteString(mot));
 
 			}
-			//Cas lettre a ajouté plus petit (ajout a gauche)
+			//Cas lettre a ajoutï¿½ plus petit (ajout a gauche)
 			else if(premLettre(mot).compareTo(arbre.lettre)<0){
 				//Si pas de frereGauche on en ajoute un
 				if(arbre.frereGauche==null){
@@ -226,7 +267,7 @@ public class NoeudTH {
 			}
 		}
 		
-		//Cas lettre cherchée plus petite (a gauche)
+		//Cas lettre cherchï¿½e plus petite (a gauche)
 		else if(premLettre(motCherche).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche
 			if(arbre.frereGauche==null){
@@ -236,7 +277,7 @@ public class NoeudTH {
 		}
 		
 		
-		//Cas lettre cherchée plus petite (a droite)
+		//Cas lettre cherchï¿½e plus petite (a droite)
 		else{
 			//Si pas de frereDroit
 			if(arbre.frereDroit==null){
@@ -358,7 +399,7 @@ public class NoeudTH {
 				else return deplacePrefixe(arbre.fils,resteString(motPrefix));
 			}
 		}
-		//Cas lettre cherchée plus petite (a gauche)
+		//Cas lettre cherchï¿½e plus petite (a gauche)
 		else if(premLettre(motPrefix).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche
 			if(arbre.frereGauche==null){
@@ -367,7 +408,7 @@ public class NoeudTH {
 			else return deplacePrefixe(arbre.frereGauche,motPrefix);
 		}
 		
-		//Cas lettre cherchée plus petite (a gauche)
+		//Cas lettre cherchï¿½e plus petite (a gauche)
 		else{
 			//Si pas de frereDroit
 			if(arbre.frereDroit==null){
