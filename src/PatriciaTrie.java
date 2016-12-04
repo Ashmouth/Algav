@@ -87,10 +87,6 @@ class PatriciaTrie {
     
     public boolean subsearch(PatriciaTrie ptree, String word) {
     	
-    	if (ptree == null) {
-    		return false;
-    	}
-    	
     	String ptdata = ptree.getData();
     	
     	if (word.equals(endword) && ptdata.equals(endword)) {
@@ -169,7 +165,7 @@ class PatriciaTrie {
     		return insert(ptchilds.get(first), suffix);
     	}
     	
-    	if (data.startsWith(word)) {
+    	if (ptdata.startsWith(word)) {
     		String suffix = ptdata.substring(word.length());
 			PatriciaTrie tmp = new PatriciaTrie(suffix);
 			cloneAll(ptree, tmp);
@@ -422,74 +418,79 @@ class PatriciaTrie {
     	return 0;
     }
     
+    private void displayTH(NoeudTH tree, String acc){
+    	
+		if(tree.isFinMot()){
+			System.out.println(acc);
+		}
+		
+		if(tree.getFils() != null){
+			displayTH(tree.getFils(), acc.concat(tree.getLettre()));
+		}
+		if(tree.getFrereGauche() != null){
+			displayTH(tree.getFrereGauche(), acc);
+		}
+		if(tree.getFrereDroit() != null){
+			displayTH(tree.getFrereDroit(), acc);
+		}
+	}
+    
     public NoeudTH subpatTohyb(PatriciaTrie ptree) {
-    	NoeudTH acc = new NoeudTH();
-    	NoeudTH node = acc;
-    	NoeudTH last = node;
-    	NoeudTH tmp;
     	String ptdata = ptree.getData();
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    	NoeudTH root = new NoeudTH();
+    	NoeudTH node = root;
+    	NoeudTH tmp = root;
     	
     	//prefix to letter
     	for (int i = 0; i < ptdata.length(); i++) {
     		String s = "" + ptdata.charAt(i);
-    		if (i == 0) {
-    			node.setLettre(s);
-    		} else {
-    			node.setFils(new NoeudTH(s, node, false));
-    			tmp = node.getFils();
+
+    		if (root.getLettre() == null) {	//Work
+    			root.setLettre(s);
+    		} else {	//Work
+    			tmp = new NoeudTH(s, node, false);
+    			node.setFils(tmp);
     			node = tmp;
-    			last = node;
     		}
     	}
     	
     	//childs
     	for (String key : ptchilds.keySet()) {
     		if (key == endword) {
-    			last.setFinMot(true);
+    			tmp = new NoeudTH(endword, node, false);
+    			tmp.setFinMot(true);
+    		} else {
+    			NoeudTH old_r = tmp;
+    			tmp = subpatTohyb(ptchilds.get(key));
+        		old_r.setFrereDroit(tmp);
+//        		tmp.setFrereGauche(old_r);
+        		System.out.println(tmp.getLettre());
     		}
-    		node = subpatTohyb(ptchilds.get(key));
-    		tmp = node.getFrereDroit();
-    		node = tmp;
     	}
-    	
-    	
     	
     	//TODO Rééiquilibrage
     	
-    	return acc;
+    	return root;
     }
-    	
-//    first = second;
-//    second = third;
     
     public NoeudTH patTohyb(PatriciaTrie ptree) {
-    	NoeudTH acc = null;
-    	NoeudTH node = acc;
-    	NoeudTH tmp;
+    	NoeudTH root = new NoeudTH();
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
-    	
+
     	for (String key : ptchilds.keySet()) {
-    		if (acc == null) {
-    			acc = subpatTohyb(ptchilds.get(key));
-    			acc.setFrereDroit(new NoeudTH());
-    			node = acc.getFrereDroit();
-    		} else {
-    			node = subpatTohyb(ptchilds.get(key));
-    			System.out.println(node.getLettre());
-    			node.setFrereDroit(new NoeudTH());
-    			tmp = node.getFrereDroit();			//Hack didn't work ><' 
-    			node = tmp;	//Hack for pointer in java
-    		}
-    	}
-    	System.out.println(acc.getLettre());
-    	ArrayList<String> as = node.listeMots(node);
-        for(String s : as) {
-        	System.out.println(s);
-        }
+    		NoeudTH old_r = root;
+    		root = subpatTohyb(ptchilds.get(key));
+    		old_r.setFrereDroit(root);
+//    		root.setFrereGauche(old_r);
+		}
+    	
+    	
+    	displayTH(root, "");
+    	
     	//TODO Rééiquilibrage
     	
-    	return acc;
+    	return root;
     }
     
     public void benchmark(File fileEntry) {
@@ -525,6 +526,7 @@ class PatriciaTrie {
 		}
 		int cw = pt1.CountWord(pt1);
 		int cd = pt1.CountDeep(pt1);
+		
 		long build = total;
 		
 		startTime = System.nanoTime();
