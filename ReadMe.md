@@ -149,4 +149,20 @@ delete = Θ 1 + (4 * (longeur du mot))
 
 insert = Θ 5 + cloneAll * (longeur du mot)
 
-CountWord = Θ
+CountWord = Θ 26 * 26
+
+CountDeep = Θ 26 * 26
+
+ArrayWord = Θ 1 + (26 * 26 + 2)
+
+AllWord = Θ 1 + (26 * 26 + 2)
+
+copy = Θ 1 + (26 * 26)
+
+split = Θ 2 + cloneAll
+
+fusion = Θ 2 + ((26 * 26) * 2)
+
+patDeep = Θ ((1 + 26) * 26)
+
+patTohyb = Θ (26 * 26 + 2)

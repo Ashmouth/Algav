@@ -418,6 +418,7 @@ class PatriciaTrie {
     	return 0;
     }
     
+    
     private void displayTH(NoeudTH tree, String acc){
     	
 		if(tree.isFinMot()){
@@ -440,7 +441,6 @@ class PatriciaTrie {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	NoeudTH root = new NoeudTH();
     	NoeudTH node = root;
-    	NoeudTH tmp = root;
     	
     	//prefix to letter
     	for (int i = 0; i < ptdata.length(); i++) {
@@ -449,49 +449,50 @@ class PatriciaTrie {
     		if (root.getLettre() == null) {	//Work
     			root.setLettre(s);
     		} else {	//Work
-    			tmp = new NoeudTH(s, node, false);
+    			NoeudTH tmp = new NoeudTH(s, node, false);
     			node.setFils(tmp);
     			node = tmp;
     		}
     	}
     	
     	//childs
+    	NoeudTH tmp = new NoeudTH();
+    	NoeudTH old_r = new NoeudTH();
+    	node.setFils(old_r);
     	for (String key : ptchilds.keySet()) {
     		if (key == endword) {
     			tmp = new NoeudTH(endword, node, false);
     			tmp.setFinMot(true);
+    			node.setFils(tmp);
     		} else {
-    			NoeudTH old_r = tmp;
     			tmp = subpatTohyb(ptchilds.get(key));
         		old_r.setFrereDroit(tmp);
-//        		tmp.setFrereGauche(old_r);
-        		System.out.println(tmp.getLettre());
+        		old_r = tmp;
     		}
     	}
     	
     	//TODO Rééiquilibrage
+    	displayTH(root,"");
     	
     	return root;
     }
     
     public NoeudTH patTohyb(PatriciaTrie ptree) {
     	NoeudTH root = new NoeudTH();
+    	NoeudTH node = root;
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
 
     	for (String key : ptchilds.keySet()) {
-    		NoeudTH old_r = root;
-    		root = subpatTohyb(ptchilds.get(key));
-    		old_r.setFrereDroit(root);
-//    		root.setFrereGauche(old_r);
+    		NoeudTH old_r = node;
+    		node = subpatTohyb(ptchilds.get(key));
+    		old_r.setFrereDroit(node);
 		}
-    	
-    	
-    	displayTH(root, "");
     	
     	//TODO Rééiquilibrage
     	
     	return root;
     }
+    
     
     public void benchmark(File fileEntry) {
     	BufferedReader br = null;

@@ -110,14 +110,8 @@ public class MainProjet {
             		    System.out.println(clean);
 				
                     break;
-                    
+
                 case "7" :
-                	
-            		insertOne(f.listFiles()[0]);
-				
-                    break;
-                    
-                case "8" :
                 	System.out.println("Lancement de l'auto-test avancé");
                     pt1.insert(pt1, "arbre");
                     pt1.insert(pt1, "arc");
@@ -129,12 +123,19 @@ public class MainProjet {
                     System.out.println("Medium deep is "+pt1.mediumDeep(pt1));
                     System.out.println("nb ar prefix is "+pt1.prefix(pt1, "ar"));
                     NoeudTH demo1 = pt1.patTohyb(pt1);
-//                    ArrayList<String> as = demo1.listeMots(demo1);
-//                    System.out.println("Pat to Hyb");
-//                    for(String s : as) {
-//                    	System.out.println(s);
-//                    }
+                    ArrayList<String> as = demo1.listeMots(demo1);
+                    System.out.println("Pat to Hyb");
+                    for(String s : as) {
+                    	System.out.println(s);
+                    }
                     break;
+                    
+                case "8" :
+                	
+            		insertOne(f.listFiles()[0]);
+				
+                    break;
+                    
                     
                 case "100" :
                 	Exemple.ajouterPhrase(Exemple, chaine);
@@ -254,6 +255,8 @@ public class MainProjet {
         System.out.println("4. Patricia : Auto-test Fusion");
         System.out.println("5. Patricia : Exemple de base");
         System.out.println("6. Patricia : Benchmark");
+        System.out.println("7. Patricia : Auto-test Convertion");
+//        System.out.println("8. Patricia : Display lll.txt");	//Work use for test
         System.out.println();
         
         System.out.println("100. Hybrides : Inserer l'exemple de base");
