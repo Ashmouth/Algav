@@ -154,7 +154,7 @@ class PatriciaTrie {
     		return true;
     	}
 
-    	//Cas récursif
+    	//Cas recursif
     	if (word.startsWith(ptdata)) {
     		String suffix = word.substring(ptdata.length());
     		String first = suffix.substring(0, 1);
@@ -312,7 +312,7 @@ class PatriciaTrie {
 			return;
 		}
 
-		//Cas data et word on deux suffix différents
+		//Cas data et word on deux suffix differents
     	String prefix = getPrefix(ptdata, word);
 		String suffixw = word.substring(prefix.length(), word.length());
 		String suffixd = ptdata.substring(prefix.length(), ptdata.length());
@@ -338,7 +338,7 @@ class PatriciaTrie {
     	
     	//Cas Initiale
     	if(ptdata1.equals(ptdata2)) {
-    		//Cas Récurssif
+    		//Cas Recurssif
     		for (String s : ptchilds2.keySet()) {
     			if(ptchilds1.containsKey(s)) {
     				subfusion(ptchilds1.get(s), ptchilds2.get(s));
@@ -471,7 +471,7 @@ class PatriciaTrie {
     		}
     	}
     	
-    	//TODO Rééiquilibrage
+    	//TODO Reeiquilibrage
     	displayTH(root,"");
     	
     	return root;
@@ -488,7 +488,7 @@ class PatriciaTrie {
     		old_r.setFrereDroit(node);
 		}
     	
-    	//TODO Rééiquilibrage
+    	//TODO Reeiquilibrage
     	
     	return root;
     }

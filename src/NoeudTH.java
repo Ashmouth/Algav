@@ -145,7 +145,7 @@ public class NoeudTH {
 			ajouterMot(arbre.fils,resteString(mot));
 
 		}
-		//Cas lettre a ajout� plus petit (ajout a gauche)
+		//Cas lettre a ajoute plus petit (ajout a gauche)
 		else if(premLettre(mot).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche on en ajoute un
 			if(arbre.frereGauche==null){
@@ -215,7 +215,7 @@ public class NoeudTH {
 				ajouterMotSilence(arbre.fils,resteString(mot));
 
 			}
-			//Cas lettre a ajout� plus petit (ajout a gauche)
+			//Cas lettre a ajoute plus petit (ajout a gauche)
 			else if(premLettre(mot).compareTo(arbre.lettre)<0){
 				//Si pas de frereGauche on en ajoute un
 				if(arbre.frereGauche==null){
@@ -267,7 +267,7 @@ public class NoeudTH {
 			}
 		}
 		
-		//Cas lettre cherch�e plus petite (a gauche)
+		//Cas lettre cherchee plus petite (a gauche)
 		else if(premLettre(motCherche).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche
 			if(arbre.frereGauche==null){
@@ -277,7 +277,7 @@ public class NoeudTH {
 		}
 		
 		
-		//Cas lettre cherch�e plus petite (a droite)
+		//Cas lettre cherchee plus petite (a droite)
 		else{
 			//Si pas de frereDroit
 			if(arbre.frereDroit==null){
@@ -399,7 +399,7 @@ public class NoeudTH {
 				else return deplacePrefixe(arbre.fils,resteString(motPrefix));
 			}
 		}
-		//Cas lettre cherch�e plus petite (a gauche)
+		//Cas lettre cherchee plus petite (a gauche)
 		else if(premLettre(motPrefix).compareTo(arbre.lettre)<0){
 			//Si pas de frereGauche
 			if(arbre.frereGauche==null){
@@ -408,7 +408,7 @@ public class NoeudTH {
 			else return deplacePrefixe(arbre.frereGauche,motPrefix);
 		}
 		
-		//Cas lettre cherch�e plus petite (a gauche)
+		//Cas lettre cherchee plus petite (a gauche)
 		else{
 			//Si pas de frereDroit
 			if(arbre.frereDroit==null){
@@ -525,6 +525,14 @@ public class NoeudTH {
         endTime = System.nanoTime();
         duration = (endTime - startTime);
         long insertime = duration;
+        
+        startTime = System.nanoTime();
+        demo1.recherche(demo1, "arbre");
+        demo1.recherche(demo1, "arc");
+        demo1.recherche(demo1, "arbuste");
+        endTime = System.nanoTime();
+        duration = (endTime - startTime);
+        long searchtime = duration;
   
         startTime = System.nanoTime();
         demo1.suppression(demo1, "artiste");
@@ -535,8 +543,8 @@ public class NoeudTH {
         long deletetime = duration;
         
         
-        String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s | %6$-6s",
-        		fileEntry.getName(), build, insertime/3, deletetime/3, demo1.comptageMots(demo1), demo1.hauteur(demo1));
+        String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s | %6$-6s | %7$-6s",
+        		fileEntry.getName(), build, insertime/3,  searchtime/3,  deletetime/3, demo1.comptageMots(demo1)-3, demo1.hauteur(demo1));
 	    System.out.println(value);
     }
 	
