@@ -9,8 +9,9 @@ Question 1.2 : Primitive insertion et recherche implémenter
 Question 1.3 :
 Nombre de mots = 36
 Mots dans l'arbre = 
-a
+A
 appel
+a
 chacune
 ci
 clavier
@@ -45,97 +46,15 @@ toute
 un
 ?
 
-Benchmark )
+Question 1.5 :
+Le nombres de mots est de : 36
+Liste : [?, A, a, appel, chacune, ci, clavier, coeur, connait, dactylo, dactylographie, 
+de, des, dessous, du, ecrire, elle, fait, genial, genre, la, machine, 
+modele, nous, par, phrase, professeur, puisque, que, quel, redevables, 
+sommes, superbe, touches, toute, un]
 
-```
-PatriciaTrie Benchmark (en nanoseconde)
-________________________________________________________________________________
-file                 | build    | insert | search | delete | fusion | nbword | deep  
-lll.txt              | 62665389 | 8553   | 25896  | 13779  | 27060  | 3637   | 9     
-comedy_errors.txt    | 32407013 | 8334   | 7759   | 6010   | 19735  | 2438   | 9     
-richardii.txt        | 43973267 | 35479  | 21824  | 17732  | 25043  | 3513   | 9     
-twelfth_night.txt    | 37187100 | 7419   | 9766   | 7102   | 17352  | 3030   | 10    
-merchant.txt         | 34073605 | 23944  | 20964  | 403569 | 31033  | 3160   | 9     
-merry_wives.txt      | 36838517 | 8976   | 8954   | 8583   | 14301  | 3188   | 9     
-henryv.txt           | 49361323 | 11580  | 10501  | 6835   | 15757  | 4393   | 10    
-1henryiv.txt         | 39817201 | 29950  | 18845  | 14393  | 16542  | 3723   | 9     
-2henryiv.txt         | 36465126 | 23284  | 8785   | 5910   | 13754  | 3963   | 10    
-1henryvi.txt         | 35250137 | 25172  | 23074  | 14843  | 18822  | 3725   | 9     
-3henryvi.txt         | 26169784 | 23315  | 8546   | 6118   | 13959  | 3448   | 9     
-measure.txt          | 17587919 | 23396  | 8795   | 5986   | 19820  | 3229   | 9     
-othello.txt          | 21828583 | 6350   | 10097  | 6243   | 14438  | 3665   | 9     
-taming_shrew.txt     | 21208092 | 4952   | 10492  | 7139   | 15674  | 3149   | 9     
-tempest.txt          | 12562521 | 5113   | 9082   | 6022   | 17810  | 3084   | 9     
-macbeth.txt          | 16124139 | 3521   | 8733   | 5728   | 14113  | 3204   | 9     
-asyoulikeit.txt      | 12547031 | 3900   | 7539   | 4797   | 11231  | 3170   | 10    
-allswell.txt         | 10263842 | 4996   | 7201   | 4686   | 10566  | 3388   | 9     
-hamlet.txt           | 17526836 | 3995   | 23282  | 5129   | 16411  | 4554   | 9     
-julius_caesar.txt    | 11017823 | 2608   | 41848  | 5355   | 12624  | 2793   | 9     
-much_ado.txt         | 10703281 | 6841   | 5526   | 5163   | 16687  | 2907   | 10    
-coriolanus.txt       | 13489614 | 4983   | 5135   | 5798   | 18061  | 3883   | 10    
-romeo_juliet.txt     | 11912962 | 3979   | 5067   | 5095   | 17634  | 3545   | 9     
-timon.txt            | 8143238  | 4699   | 4757   | 4910   | 11417  | 3187   | 10    
-winters_tale.txt     | 12751308 | 5364   | 5452   | 5096   | 11326  | 3714   | 9     
-pericles.txt         | 7983369  | 2865   | 3444   | 4486   | 8815   | 3144   | 9     
-john.txt             | 7715019  | 2211   | 3519   | 6876   | 26934  | 3437   | 10    
-2henryvi.txt         | 12046090 | 2391   | 3835   | 5713   | 24372  | 3935   | 10    
-richardiii.txt       | 14138694 | 4640   | 4779   | 5291   | 56979  | 3896   | 9     
-henryviii.txt        | 11125763 | 4514   | 4548   | 4968   | 9409   | 3515   | 10    
-troilus_cressida.txt | 12247460 | 8158   | 7901   | 6688   | 15792  | 4119   | 9     
-midsummer.txt        | 6677614  | 3189   | 3222   | 4188   | 7805   | 2914   | 9     
-cymbeline.txt        | 10226891 | 2921   | 3543   | 5892   | 24722  | 4057   | 10    
-lear.txt             | 9745218  | 3225   | 3869   | 4955   | 8919   | 4007   | 9     
-cleopatra.txt        | 9424157  | 3067   | 3510   | 4391   | 7853   | 3782   | 9     
-titus.txt            | 9900795  | 1781   | 3344   | 5511   | 25331  | 3306   | 9     
-two_gentlemen.txt    | 8321354  | 3450   | 5317   | 5495   | 29259  | 2638   | 9     
-________________________________________________________________________________
-```
-```
-
-Tries Hybrides Benchmark (en nanoseconde)
-_____________________________________________________
-file                 | build    | insert | delete | nbword |deep  
-lll.txt              | 59166961 | 2320   | 24899  | 3640   | 33    
-comedy_errors.txt    | 30805931 | 3412   | 7866   | 2441   | 24    
-richardii.txt        | 51216749 | 7594   | 14143  | 3516   | 26    
-twelfth_night.txt    | 30102027 | 2493   | 24664  | 3033   | 31    
-merchant.txt         | 32750354 | 6108   | 12635  | 3163   | 28    
-merry_wives.txt      | 30835418 | 2120   | 6882   | 3191   | 27    
-henryv.txt           | 51601572 | 3167   | 459309 | 4396   | 30    
-1henryiv.txt         | 56602944 | 4763   | 6351   | 3726   | 27    
-2henryiv.txt         | 47101330 | 3960   | 5192   | 3966   | 32    
-1henryvi.txt         | 34133626 | 1863   | 3360   | 3727   | 25    
-3henryvi.txt         | 55901151 | 15178  | 3834   | 3451   | 29    
-measure.txt          | 42948994 | 17728  | 3476   | 3232   | 24    
-othello.txt          | 49352443 | 2022   | 4027   | 3668   | 26    
-taming_shrew.txt     | 41019566 | 1933   | 4145   | 3152   | 25    
-tempest.txt          | 35851632 | 2825   | 4911   | 3087   | 27    
-macbeth.txt          | 51957842 | 4428   | 4187   | 3207   | 26    
-asyoulikeit.txt      | 48627768 | 2282   | 4716   | 3173   | 28    
-allswell.txt         | 49541001 | 2531   | 5143   | 3391   | 27    
-hamlet.txt           | 60671141 | 3190   | 4489   | 4557   | 25    
-julius_caesar.txt    | 37114704 | 11149  | 16116  | 2796   | 26    
-much_ado.txt         | 43100367 | 2423   | 2896   | 2910   | 26    
-coriolanus.txt       | 49966101 | 14410  | 4497   | 3886   | 25    
-romeo_juliet.txt     | 20408237 | 21288  | 4693   | 3548   | 26    
-timon.txt            | 15538697 | 1466   | 3926   | 3190   | 26    
-winters_tale.txt     | 30449108 | 1615   | 4250   | 3717   | 28    
-pericles.txt         | 22301478 | 1784   | 4557   | 3147   | 24    
-john.txt             | 29998409 | 1639   | 4003   | 3440   | 27    
-2henryvi.txt         | 39923689 | 6710   | 5403   | 3938   | 32    
-richardiii.txt       | 41987965 | 1588   | 4123   | 3899   | 25    
-henryviii.txt        | 26391065 | 3333   | 7570   | 3518   | 26    
-troilus_cressida.txt | 30336500 | 1616   | 4559   | 4122   | 27    
-midsummer.txt        | 18357216 | 1646   | 8450   | 2917   | 25    
-cymbeline.txt        | 30775933 | 1875   | 4732   | 4060   | 26    
-lear.txt             | 31704536 | 1703   | 3802   | 4010   | 26    
-cleopatra.txt        | 31751727 | 1351   | 4743   | 3785   | 28    
-titus.txt            | 23000790 | 1246   | 4175   | 3309   | 26    
-two_gentlemen.txt    | 18053381 | 1425   | 3519   | 2641   | 25    
-_____________________________________________________
-```
-
-Calcule des complexitées :
+Question 4.10 :
+Calcule des complexitées PatriciaTrie :
 
 getPrefix = Θ (longeur du mot)
 
@@ -166,3 +85,122 @@ fusion = Θ 2 + ((26 * 26) * 2)
 patDeep = Θ ((1 + 26) * 26)
 
 patTohyb = Θ (26 * 26 + 2)
+
+
+Calcule des complexitées au pire Tries Hybrides : (nombre de comparaison)
+
+ajouterMot = Θ 5 * (longeur du mot)
+
+recherche = Θ 4 * (longeur du mot)
+
+comptageMots = Θ 2 * nb de noeud
+
+listeMots = Θ 1 + (4 * nb de noeud) 
+
+comptageNil = Θ nb de noeud
+
+hauteur = Θ nb de noeud
+
+profondeurMoyenne = Θ 1 + (4 * nb de noeud)
+
+prefixe = Θ (2 + (4 * longeur du prefixe)) + (2 + (2 * nb de noeud))
+prefixe = Θ 4 + (4 * longeur du prefixe) + (2 * nb de noeud)
+
+suppression = Θ 1 + (4 * (longeur du mot)) + (hauteur de l'arbre) + (4 * longeur du mot * hauteur de l'arbre)
+
+Conversion Hybrides => Patricia = 1 + (4 * nb de noeud) + (nb de mot * (5 + cloneAll * (longeur du mot)))
+
+
+
+
+Question 5.11 et 5.12 :
+Benchmark )
+
+```
+PatriciaTrie Benchmark (en nanoseconde)
+________________________________________________________________________________
+file                 | build    | insert | search | delete | fusion | nbword | deep  
+1henryiv.txt         | 6941749  | 1173   | 1920   | 2666   | 2240   | 3723   | 9     
+1henryvi.txt         | 6334072  | 746    | 1600   | 2240   | 2133   | 3725   | 9     
+2henryiv.txt         | 7198393  | 960    | 1706   | 2346   | 2133   | 3963   | 10    
+2henryvi.txt         | 6960640  | 746    | 1600   | 2240   | 2026   | 3935   | 10    
+3henryvi.txt         | 6784615  | 853    | 1920   | 2453   | 2346   | 3448   | 9     
+allswell.txt         | 6151363  | 853    | 4800   | 5333   | 2346   | 3388   | 9     
+asyoulikeit.txt      | 6246725  | 746    | 1386   | 2133   | 2026   | 3170   | 10    
+cleopatra.txt        | 7999646  | 853    | 1600   | 2346   | 2133   | 3782   | 9     
+comedy_errors.txt    | 4401948  | 746    | 1493   | 2240   | 2026   | 2438   | 9     
+coriolanus.txt       | 9190381  | 960    | 1813   | 2666   | 2240   | 3883   | 10    
+cymbeline.txt        | 8632926  | 1066   | 1493   | 2346   | 2240   | 4057   | 10    
+hamlet.txt           | 9561544  | 853    | 1706   | 7680   | 2026   | 4554   | 9     
+henryv.txt           | 9030036  | 1066   | 1920   | 14293  | 2240   | 4393   | 10    
+henryviii.txt        | 8303628  | 853    | 9493   | 6933   | 2240   | 3515   | 10    
+john.txt             | 6625583  | 959    | 2986   | 2027   | 2239   | 3437   | 10    
+julius_caesar.txt    | 6278078  | 640    | 11306  | 5013   | 2453   | 2793   | 9     
+lear.txt             | 8325103  | 853    | 960    | 1066   | 2240   | 4007   | 9     
+lll.txt              | 5965119  | 1173   | 853    | 1279   | 2773   | 3637   | 9     
+macbeth.txt          | 4883188  | 639    | 2773   | 1173   | 2133   | 3204   | 9     
+measure.txt          | 5881927  | 853    | 960    | 1173   | 2453   | 3229   | 9     
+merchant.txt         | 5697591  | 853    | 853    | 960    | 2133   | 3160   | 9     
+merry_wives.txt      | 5834901  | 640    | 853    | 1066   | 2133   | 3188   | 9     
+midsummer.txt        | 4299202  | 746    | 960    | 960    | 2026   | 2914   | 9     
+much_ado.txt         | 6285089  | 853    | 960    | 1173   | 2133   | 2907   | 10    
+othello.txt          | 7218516  | 853    | 960    | 1173   | 2346   | 3665   | 9     
+pericles.txt         | 5037078  | 960    | 1173   | 1066   | 2133   | 3144   | 9     
+richardii.txt        | 6102382  | 746    | 853    | 1173   | 2133   | 3513   | 9     
+richardiii.txt       | 7995469  | 1280   | 1066   | 1066   | 2026   | 3896   | 9     
+romeo_juliet.txt     | 6606632  | 853    | 1066   | 1173   | 2453   | 3545   | 9     
+taming_shrew.txt     | 6152624  | 746    | 1066   | 1066   | 2240   | 3149   | 9     
+tempest.txt          | 4731822  | 853    | 960    | 1066   | 3626   | 3084   | 9     
+timon.txt            | 5187179  | 853    | 960    | 1173   | 2240   | 3187   | 10    
+titus.txt            | 5681894  | 640    | 960    | 960    | 2240   | 3306   | 9     
+troilus_cressida.txt | 7818564  | 960    | 1066   | 1280   | 2346   | 4119   | 9     
+twelfth_night.txt    | 5327678  | 853    | 1066   | 1066   | 2346   | 3030   | 10    
+two_gentlemen.txt    | 4487653  | 533    | 960    | 1066   | 2240   | 2638   | 9     
+winters_tale.txt     | 6835816  | 853    | 960    | 1066   | 2240   | 3714   | 9     
+________________________________________________________________________________
+
+```
+```
+
+Tries Hybrides Benchmark (en nanoseconde)
+_____________________________________________________
+file                 | build    | insert | search | delete | nbword | deep  
+1henryiv.txt         | 11145929 | 746    | 1386   | 2026   | 3723   | 27    
+1henryvi.txt         | 10056634 | 746    | 1280   | 1280   | 3724   | 25    
+2henryiv.txt         | 11891485 | 853    | 1493   | 2026   | 3963   | 32    
+2henryvi.txt         | 11831390 | 747    | 7040   | 4906   | 3935   | 32    
+3henryvi.txt         | 10651407 | 853    | 1493   | 1706   | 3448   | 29    
+allswell.txt         | 12636135 | 746    | 1280   | 1600   | 3388   | 27    
+asyoulikeit.txt      | 12902079 | 746    | 1173   | 1386   | 3170   | 28    
+cleopatra.txt        | 13653387 | 640    | 1066   | 3199   | 3782   | 28    
+comedy_errors.txt    | 6671970  | 746    | 1280   | 1173   | 2438   | 24    
+coriolanus.txt       | 11643527 | 853    | 1280   | 1813   | 3883   | 25    
+cymbeline.txt        | 12075230 | 746    | 1173   | 1493   | 4057   | 26    
+hamlet.txt           | 13002817 | 960    | 1386   | 1706   | 4554   | 25    
+henryv.txt           | 11718029 | 746    | 1386   | 1813   | 4393   | 30    
+henryviii.txt        | 10847664 | 746    | 1386   | 1600   | 3515   | 26    
+john.txt             | 9003487  | 640    | 1173   | 1280   | 3437   | 27    
+julius_caesar.txt    | 9774991  | 746    | 2773   | 1173   | 2793   | 26    
+lear.txt             | 12550992 | 853    | 1066   | 1386   | 4007   | 26    
+lll.txt              | 9973405  | 640    | 960    | 1493   | 3637   | 33    
+macbeth.txt          | 7783319  | 960    | 1813   | 1600   | 3204   | 26    
+measure.txt          | 9062716  | 746    | 1386   | 1386   | 3229   | 24    
+merchant.txt         | 8807327  | 640    | 1173   | 1386   | 3160   | 28    
+merry_wives.txt      | 9380118  | 640    | 1280   | 1280   | 3188   | 27    
+midsummer.txt        | 8001905  | 746    | 1173   | 1386   | 2914   | 25    
+much_ado.txt         | 9008922  | 853    | 1280   | 1066   | 2907   | 26    
+othello.txt          | 11397082 | 640    | 1280   | 1706   | 3665   | 26    
+pericles.txt         | 8269094  | 746    | 1173   | 1386   | 3144   | 24    
+richardii.txt        | 10902701 | 746    | 1280   | 1173   | 3513   | 26    
+richardiii.txt       | 12837746 | 853    | 1386   | 1600   | 3896   | 25    
+romeo_juliet.txt     | 10953277 | 640    | 1173   | 1173   | 3545   | 26    
+taming_shrew.txt     | 8367364  | 640    | 8533   | 1493   | 3149   | 25    
+tempest.txt          | 7926711  | 747    | 1386   | 1599   | 3084   | 27    
+timon.txt            | 8548197  | 853    | 1280   | 1600   | 3187   | 26    
+titus.txt            | 9575298  | 746    | 1066   | 1600   | 3306   | 26    
+troilus_cressida.txt | 12505239 | 746    | 1280   | 1706   | 4119   | 27    
+twelfth_night.txt    | 9236125  | 853    | 16426  | 960    | 3030   | 31    
+two_gentlemen.txt    | 7587473  | 640    | 8000   | 853    | 2638   | 25    
+winters_tale.txt     | 12732129 | 533    | 960    | 1066   | 3714   | 28    
+_____________________________________________________
+```
