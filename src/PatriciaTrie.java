@@ -36,7 +36,7 @@ class PatriciaTrie {
 		data = d;
 	}
 
-    public String getPrefix(String str1, String str2) {
+    public String findPrefix(String str1, String str2) {
         for (int i = str2.length(); i > 0; i--) {
             String tmp = str2.substring(0, i);
             if (str1.startsWith(tmp)) {
@@ -185,7 +185,7 @@ class PatriciaTrie {
     		return insert(ptchilds.get(first), word);
     	}
     	
-    	String prefix = getPrefix(ptdata, word);
+    	String prefix = findPrefix(ptdata, word);
     	if (prefix.length() != 0) {
     		String suffix = ptdata.substring(prefix.length());
     		PatriciaTrie tmp = new PatriciaTrie(suffix);
@@ -202,47 +202,45 @@ class PatriciaTrie {
     }
     
 
-	public int CountWord(PatriciaTrie ptree, int res) {
+	public int countWord(PatriciaTrie ptree, int res) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	for (String key : ptchilds.keySet()) {
     		if(key == endword) {
     			res++;
     		}
             if(ptchilds.get(key) != null) {
-                res += CountWord(ptchilds.get(key), 0);
+                res += countWord(ptchilds.get(key), 0);
             }
         }
     	return res;
     }
     
-    public int CountWord(PatriciaTrie ptree) {
-    	return CountWord(ptree, 0);
+    public int countWord(PatriciaTrie ptree) {
+    	return countWord(ptree, 0);
     }
     
-    
-    public int CountDeep(PatriciaTrie ptree, int size) {
+
+    public int countDeep(PatriciaTrie ptree, int size) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	int res = size;
     	for (String key : ptchilds.keySet()) {
-            if(ptchilds.get(key) != null) {
-            	int tmp = CountDeep(ptchilds.get(key), size + 1);
-            	if (tmp > res) {
-            		res = tmp;
-            	}
-            }
-        }
+    		int tmp = countDeep(ptchilds.get(key), size + 1);
+    		if (tmp > res) {
+    			res = tmp;
+    		}
+    	}
     	return res;
     }
-    
-    public int CountDeep(PatriciaTrie ptree) {
+
+    public int countDeep(PatriciaTrie ptree) {
     	if (ptree.getData().equals(endword)) {
-    		return CountDeep(ptree, 0);
+    		return countDeep(ptree, 0);
     	}
-    	return CountDeep(ptree, 1);
+    	return countDeep(ptree, 1);
     }
     
     
-    public void ArrayWord(PatriciaTrie ptree, String res, ArrayList<String> acc) {
+    public void arrayWord(PatriciaTrie ptree, String res, ArrayList<String> acc) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String ptdata = ptree.getData();
     	String tmp = res.concat(ptdata);
@@ -250,27 +248,38 @@ class PatriciaTrie {
     		if(key == endword) {
     			acc.add(tmp);
     		}
-            if(ptchilds.get(key) != null) {
-            	ArrayWord(ptchilds.get(key), tmp, acc);
-            }
+            arrayWord(ptchilds.get(key), tmp, acc);
         }
     }
     
-    public ArrayList<String> ArrayWord(PatriciaTrie ptree) {
+    public ArrayList<String> arrayWord(PatriciaTrie ptree) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	ArrayList<String> acc = new ArrayList<String>();
     	System.out.println(ptree.getData());
     	for (String key : ptchilds.keySet()) {
     		if(ptchilds.get(key) != null) {
-    			ArrayWord(ptchilds.get(key), "", acc);
+    			
             }
+    		arrayWord(ptchilds.get(key), "", acc);
     	}
     	return acc;
     }
     
-    public void AllWord(PatriciaTrie ptree) {
+    public void allWord(PatriciaTrie ptree, String res) {
+    	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    	String ptdata = ptree.getData();
+    	String tmp = res.concat(ptdata);
+    	for (String key : ptchilds.keySet()) {
+    		if(key == endword) {
+    			System.out.println(tmp);
+    		}
+            allWord(ptchilds.get(key), tmp);
+        }
+    }
+    
+    public void allWord(PatriciaTrie ptree) {
     	ArrayList<String> acc = new ArrayList<String>();
-    	acc = ArrayWord(ptree);
+    	acc = arrayWord(ptree);
     	for(String s : acc) {
     		System.out.println(s);
     	}
@@ -279,11 +288,9 @@ class PatriciaTrie {
     public PatriciaTrie copy(PatriciaTrie ptree) {
     	PatriciaTrie nptree = 
     			new PatriciaTrie(ptree.getChilds(), ptree.getData());
-    	if(ptree.getChilds() != null){
     		for(String s : nptree.getChilds().keySet()){
     			nptree.getChilds().put(s, copy(ptree.getChilds().get(s)));
     		}
-    	}
     	return nptree;
     }
     
@@ -313,7 +320,7 @@ class PatriciaTrie {
 		}
 
 		//Cas data et word on deux suffix differents
-    	String prefix = getPrefix(ptdata, word);
+    	String prefix = findPrefix(ptdata, word);
 		String suffixw = word.substring(prefix.length(), word.length());
 		String suffixd = ptdata.substring(prefix.length(), ptdata.length());
 
@@ -361,7 +368,7 @@ class PatriciaTrie {
     }
     
     
-    public ArrayList<Integer> patDeep(PatriciaTrie ptree, int deep) {
+    public ArrayList<Integer> getDeep(PatriciaTrie ptree, int deep) {
     	ArrayList<Integer> acc = new ArrayList<Integer>();
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	
@@ -371,7 +378,7 @@ class PatriciaTrie {
     	
     	for (String key : ptchilds.keySet()) {
     		ArrayList<Integer> tmp = new ArrayList<Integer>();
-            tmp = patDeep(ptchilds.get(key), deep++);
+            tmp = getDeep(ptchilds.get(key), deep++);
             acc.addAll(tmp);
         }
     	
@@ -380,7 +387,7 @@ class PatriciaTrie {
     
     public int mediumDeep(PatriciaTrie ptree) {
     	int res = 0;
-    	ArrayList<Integer> tmp = patDeep(ptree, 0);
+    	ArrayList<Integer> tmp = getDeep(ptree, 0);
     	
     	for (int i : tmp) {
     		res += i;
@@ -390,30 +397,30 @@ class PatriciaTrie {
     	return res;
     }
     
-    public int subprefix(PatriciaTrie ptree, String word) {
+    public int subGetPrefix(PatriciaTrie ptree, String word) {
     	String ptdata = ptree.getData();
     	
     	if (word.equals(ptdata)) {
-    		return CountWord(ptree, 0);
+    		return countWord(ptree, 0);
     	} else {
     		HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     		if (word.startsWith(ptdata)) {
     			String suffix = word.substring(ptdata.length(), word.length());
     			String first = suffix.substring(0, 1);
     			if (ptchilds.containsKey(first)) {
-    				return subprefix(ptchilds.get(first), suffix);
+    				return subGetPrefix(ptchilds.get(first), suffix);
     			}
     		}
     		return 0;
     	}
     }
     
-    public int prefix(PatriciaTrie ptree, String word) {
+    public int getPrefix(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String first = word.substring(0, 1);
     	
     	if(ptchilds.containsKey(first)) {
-    		return subprefix(ptchilds.get(first), word);
+    		return subGetPrefix(ptchilds.get(first), word);
     	}
     	return 0;
     }
@@ -436,7 +443,7 @@ class PatriciaTrie {
 		}
 	}
     
-    public NoeudTH subpatTohyb(PatriciaTrie ptree) {
+    public NoeudTH subConvert(PatriciaTrie ptree) {
     	String ptdata = ptree.getData();
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	NoeudTH root = new NoeudTH();
@@ -465,30 +472,30 @@ class PatriciaTrie {
     			tmp.setFinMot(true);
     			node.setFils(tmp);
     		} else {
-    			tmp = subpatTohyb(ptchilds.get(key));
+    			tmp = subConvert(ptchilds.get(key));
         		old_r.setFrereDroit(tmp);
         		old_r = tmp;
     		}
     	}
     	
     	//TODO Reeiquilibrage
-    	displayTH(root,"");
     	
     	return root;
     }
     
-    public NoeudTH patTohyb(PatriciaTrie ptree) {
+    public NoeudTH convert(PatriciaTrie ptree) {
     	NoeudTH root = new NoeudTH();
     	NoeudTH node = root;
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
 
     	for (String key : ptchilds.keySet()) {
     		NoeudTH old_r = node;
-    		node = subpatTohyb(ptchilds.get(key));
+    		node = subConvert(ptchilds.get(key));
     		old_r.setFrereDroit(node);
 		}
     	
     	//TODO Reeiquilibrage
+    	displayTH(root,"");
     	
     	return root;
     }
@@ -525,8 +532,8 @@ class PatriciaTrie {
 				ex.printStackTrace();
 			}
 		}
-		int cw = pt1.CountWord(pt1);
-		int cd = pt1.CountDeep(pt1);
+		int cw = pt1.countWord(pt1);
+		int cd = pt1.countDeep(pt1);
 		
 		long build = total;
 		

@@ -51,7 +51,7 @@ public class MainProjet {
             		break;
             
                 case "1" :
-                    System.out.println("Entrez le mot a  inserer");
+                    System.out.println("Entrez le mot aï¿½ inserer");
                     scan.nextLine(); //On vide
                     choice = scan.next();
                     System.out.println("Resultat : "+ pt1.insert(pt1, choice));
@@ -64,7 +64,7 @@ public class MainProjet {
                     break;
 
                 case "3" :
-                    System.out.println("Entrez le mot a  supprimer");
+                    System.out.println("Entrez le mot aï¿½ supprimer");
                     scan.nextLine(); //On vide
                     System.out.println("Resultat : "+ pt1.delete(pt1, scan.nextLine()));
                     break;
@@ -80,7 +80,7 @@ public class MainProjet {
                     pt1.fusion(pt1, pt2);
                     pt1.displayPtree(pt1, 0);
                     System.out.println("Resultat : " + pt1.search(pt1, "arbre"));
-                    pt1.AllWord(pt1);
+                    pt1.allWord(pt1);
                     break;
                     
                 case "5" :
@@ -88,9 +88,9 @@ public class MainProjet {
                     for(String s : tmp){
                     	pt1.insert(pt1, s);
                     }
-                    System.out.println("Nombre de mots = " + pt1.CountWord(pt1));
+                    System.out.println("Nombre de mots = " + pt1.countWord(pt1));
                     System.out.println("Mots dans l'arbre = ");
-                    pt1.AllWord(pt1);
+                    pt1.allWord(pt1);
                     break;
                     
                 case "6" :
@@ -121,8 +121,8 @@ public class MainProjet {
                     pt2.insert(pt2, "magique");
                     pt1.fusion(pt1, pt2);
                     System.out.println("Medium deep is "+pt1.mediumDeep(pt1));
-                    System.out.println("nb ar prefix is "+pt1.prefix(pt1, "ar"));
-                    NoeudTH demo1 = pt1.patTohyb(pt1);
+                    System.out.println("nb ar prefix is "+pt1.getPrefix(pt1, "ar"));
+                    NoeudTH demo1 = pt1.convert(pt1);
                     ArrayList<String> as = demo1.listeMots(demo1);
                     System.out.println("Pat to Hyb");
                     for(String s : as) {
@@ -142,7 +142,7 @@ public class MainProjet {
                 	break;
                 	
                 case "101" :
-                	System.out.println("Entrez le mot a  inserer");
+                	System.out.println("Entrez le mot aï¿½ inserer");
                 	scan.nextLine(); //On vide
                     Exemple.ajouterMot(Exemple, scan.nextLine());
                     System.out.println("Ajout termine");
@@ -299,7 +299,7 @@ public class MainProjet {
 			}
 		}
     	System.out.println("PatriciaTrie\n");
-    	pt1.AllWord(pt1);
+    	pt1.allWord(pt1);
 
 		System.out.println("\n\n\nHybrideTrie\n");
     	ArrayList<String> tmp = demo1.listeMots(demo1);

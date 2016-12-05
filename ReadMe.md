@@ -56,35 +56,66 @@ sommes, superbe, touches, toute, un]
 Question 4.10 :
 Calcule des complexitées PatriciaTrie :
 
-getPrefix = Θ (longeur du mot)
+findPrefix = O (longeur du mot)
 
-displayPtree = Θ 26 * (deep)
+displayPtree = O (nb_max_de_caractère * profondeur)
+(Parcours d'une Hashmap au pire des cas contenant tout les caratères possible)
 
-CloneAll = Θ 26
+cloneAll = O (nb_max_de_caractère)
+(Parcours d'une Hashmap au pire des cas contenant tout les caratères possible)
 
-search = Θ 1 + (4 * (longeur du mot))
+search = O (4 * (longeur du mot))
+(Une comparaison puis lancement de la sous fonction
+4 comparaisons pour chaque caractère du mot aux pire cas)
 
-delete = Θ 1 + (4 * (longeur du mot))
+delete = O (4 * (longeur du mot))
+(Une comparaison puis lancement de la sous fonction
+4 comparaisons pour chaque caractère du mot aux pire cas)
 
-insert = Θ 5 + cloneAll * (longeur du mot)
+insert = O ((5 * cloneAll) * longeur du mot)
+(5 comparaison puis lancement de la fonction cloneAll, au pire cas pour chaque
+caractères du mot)
 
-CountWord = Θ 26 * 26
+countWord = O ((1 + nb_max_de_caractère) * profondeur)
+(Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre)
 
-CountDeep = Θ 26 * 26
+countDeep = O ((1 + nb_max_de_caractère) * profondeur)
+(Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre)
 
-ArrayWord = Θ 1 + (26 * 26 + 2)
+arrayWord = O ((1 + nb_max_de_caractère) * profondeur)
+(Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre)
 
-AllWord = Θ 1 + (26 * 26 + 2)
+allWord = O ((1 + nb_max_de_caractère) * profondeur)
+(Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre)
 
-copy = Θ 1 + (26 * 26)
+copy = O (nb_max_de_caractère * profondeur)
+(Parcours d'une Hashmap au pire des cas contenant tout les caratères possible 
+pour toute la profondeur de l'arbre)
 
-split = Θ 2 + cloneAll
+split = O (2 + cloneAll)
+(Deux comparaisons et lancement de la fonction cloneAll)
 
-fusion = Θ 2 + ((26 * 26) * 2)
+fusion = O (2 * (nb_max_de_caractère * profondeur_min-d'un_des_deux_arbres))
+(Deux comparaisons puis, parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre le plus court)
 
-patDeep = Θ ((1 + 26) * 26)
+getDeep = O ((1 + nb_max_de_caractère) * profondeur)
+(Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
+les caratères possible pour toute la profondeur de l'arbre le plus court)
 
-patTohyb = Θ (26 * 26 + 2)
+mediumDeep = O (getDeep * nb_elem_getDeep)
+(Appel getDeep puis Parcours la liste obtenu)
+
+getPrefix = O (3 * longeur du mot)
+(Trois comparaisons pour chaque caractère du mot)
+
+convert = O ((nb_caractère_du_préfix + nb_max_de_caractère) * profondeur)
+(Parcours du préfixe et parcours de la Hashmap des fils au pire des cas 
+contenant tout les caratères possible pour toute la profondeur de l'arbre)
 
 
 Calcule des complexitées au pire Tries Hybrides : (nombre de comparaison)
