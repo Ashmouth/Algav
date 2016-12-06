@@ -4,6 +4,13 @@
 
 Le caractère pour le fin d'un mot est '@'
 
+### Question 3.9 : On peut reequilibrer un trie hybride au niveau des freres.
+En effet si l'arbre est parfaitement équilibre tous les frere d'un meme noeud
+formerons un arbre binaire complet. C'est en ce basant sur cette logique qu'on
+trouve que le seuil est dépassé lorsque la profondeur max des freres
+est supérieure a la valeure absolue du log en base 2 du nombre total de frere.
+
+
 ### Question 4.10 :
 Calcule des complexitées PatriciaTrie :
 
@@ -120,6 +127,7 @@ contenant tout les caratères possible pour toute la profondeur de l'arbre)
 
 ---
 
+
 Calcule des complexitées au pire Tries Hybrides : (nombre de comparaison)
 
 ajouterMot = Θ 5 * (longeur du mot)
@@ -196,7 +204,7 @@ ________________________________________________________________________________
 ```
 
 Tries Hybrides Benchmark (en nanoseconde)
-_____________________________________________________
+__________________________________________________________________________
 file                 | build    | insert | search | delete | nbword | deep  
 1henryiv.txt         | 11145929 | 746    | 1386   | 2026   | 3723   | 27    
 1henryvi.txt         | 10056634 | 746    | 1280   | 1280   | 3724   | 25    
@@ -235,7 +243,7 @@ troilus_cressida.txt | 12505239 | 746    | 1280   | 1706   | 4119   | 27
 twelfth_night.txt    | 9236125  | 853    | 16426  | 960    | 3030   | 31    
 two_gentlemen.txt    | 7587473  | 640    | 8000   | 853    | 2638   | 25    
 winters_tale.txt     | 12732129 | 533    | 960    | 1066   | 3714   | 28    
-_____________________________________________________
+__________________________________________________________________________
 ```
 
 ### Conclusion :
@@ -243,4 +251,5 @@ _____________________________________________________
 Sur quelque instance le Patricia-Tries est meilleur que le Hybride-Tries, 
 néanmoins, en moyen l'Hybride est moins performent en construction mais
 ensuite il est plus rapide que le Patricia-Tries pour les fonctions d'insertion,
- d'ajout, de suppression et de recherche
+d'ajout, de suppression et de recherche. La hauteur du trie hybride sans reequilibrage
+est par contre beaucoup plus grande que celle du Patricia.
