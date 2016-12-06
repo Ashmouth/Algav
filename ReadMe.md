@@ -1,122 +1,124 @@
 # Devoir de Programmation : Tries
 
-## 1.1 Structure 1 : Patricia-Tries
+### Question 1.1 : 
 
-Question 1.1 : Le caractère pour le fin d'un mot est '@'
+Le caractère pour le fin d'un mot est '@'
 
-Question 1.2 : Primitive insertion et recherche implémenter
-
-Question 1.3 :
-Nombre de mots = 36
-Mots dans l'arbre = 
-A
-appel
-a
-chacune
-ci
-clavier
-coeur
-connait
-dactylo
-dactylographie
-de
-des
-dessous
-du
-ecrire
-elle
-fait
-genre
-genial
-la
-machine
-modele
-nous
-par
-professeur
-puisque
-phrase
-que
-quel
-redevables
-superbe
-sommes
-touches
-toute
-un
-?
-
-Question 1.5 :
-Le nombres de mots est de : 36
-Liste : [?, A, a, appel, chacune, ci, clavier, coeur, connait, dactylo, dactylographie, 
-de, des, dessous, du, ecrire, elle, fait, genial, genre, la, machine, 
-modele, nous, par, phrase, professeur, puisque, que, quel, redevables, 
-sommes, superbe, touches, toute, un]
-
-Question 4.10 :
+### Question 4.10 :
 Calcule des complexitées PatriciaTrie :
 
 findPrefix = O (longeur du mot)
 
+(Parcours d'une chaine de caractère et comparaisons pour chaque caractère)
+
+---
+
 displayPtree = O (nb_max_de_caractère * profondeur)
+
 (Parcours d'une Hashmap au pire des cas contenant tout les caratères possible)
+
+---
 
 cloneAll = O (nb_max_de_caractère)
+
 (Parcours d'une Hashmap au pire des cas contenant tout les caratères possible)
 
+---
+
 search = O (4 * (longeur du mot))
+
 (Une comparaison puis lancement de la sous fonction
 4 comparaisons pour chaque caractère du mot aux pire cas)
+
+---
 
 delete = O (4 * (longeur du mot))
+
 (Une comparaison puis lancement de la sous fonction
 4 comparaisons pour chaque caractère du mot aux pire cas)
 
+---
+
 insert = O ((5 * cloneAll) * longeur du mot)
+
 (5 comparaison puis lancement de la fonction cloneAll, au pire cas pour chaque
 caractères du mot)
 
+---
+
 countWord = O ((1 + nb_max_de_caractère) * profondeur)
+
 (Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre)
+
+---
 
 countDeep = O ((1 + nb_max_de_caractère) * profondeur)
+
 (Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre)
+
+---
 
 arrayWord = O ((1 + nb_max_de_caractère) * profondeur)
+
 (Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre)
+
+---
 
 allWord = O ((1 + nb_max_de_caractère) * profondeur)
+
 (Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre)
 
+---
+
 copy = O (nb_max_de_caractère * profondeur)
+
 (Parcours d'une Hashmap au pire des cas contenant tout les caratères possible 
 pour toute la profondeur de l'arbre)
 
+---
+
 split = O (2 + cloneAll)
+
 (Deux comparaisons et lancement de la fonction cloneAll)
 
+---
+
 fusion = O (2 * (nb_max_de_caractère * profondeur_min-d'un_des_deux_arbres))
+
 (Deux comparaisons puis, parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre le plus court)
 
+---
+
 getDeep = O ((1 + nb_max_de_caractère) * profondeur)
+
 (Une comparaisons et parcours d'une Hashmap au pire des cas contenant tout 
 les caratères possible pour toute la profondeur de l'arbre le plus court)
 
+---
+
 mediumDeep = O (getDeep * nb_elem_getDeep)
+
 (Appel getDeep puis Parcours la liste obtenu)
 
+---
+
 getPrefix = O (3 * longeur du mot)
+
 (Trois comparaisons pour chaque caractère du mot)
 
+---
+
 convert = O ((nb_caractère_du_préfix + nb_max_de_caractère) * profondeur)
+
 (Parcours du préfixe et parcours de la Hashmap des fils au pire des cas 
 contenant tout les caratères possible pour toute la profondeur de l'arbre)
 
+---
 
 Calcule des complexitées au pire Tries Hybrides : (nombre de comparaison)
 
@@ -144,7 +146,7 @@ Conversion Hybrides => Patricia = 1 + (4 * nb de noeud) + (nb de mot * (5 + clon
 
 
 
-Question 5.11 et 5.12 :
+### Question 5.11 et 5.12 :
 Benchmark )
 
 ```
@@ -235,3 +237,10 @@ two_gentlemen.txt    | 7587473  | 640    | 8000   | 853    | 2638   | 25
 winters_tale.txt     | 12732129 | 533    | 960    | 1066   | 3714   | 28    
 _____________________________________________________
 ```
+
+### Conclusion :
+
+Sur quelque instance le Patricia-Tries est meilleur que le Hybride-Tries, 
+néanmoins, en moyen l'Hybride est moins performent en construction mais
+ensuite il est plus rapide que le Patricia-Tries pour les fonctions d'insertion,
+ d'ajout, de suppression et de recherche
