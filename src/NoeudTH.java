@@ -485,6 +485,162 @@ public class NoeudTH {
 	}
 	
 	
+	
+	
+	public double log2(int n){
+	    return (Math.log(n) / Math.log(2));
+	}
+	
+	private int nbDeFrere(NoeudTH arbre){
+		if(arbre==null) return 0;
+		return 1 + nbDeFrere(arbre.frereGauche) + nbDeFrere(arbre.frereDroit);
+	}
+	
+	private int profondeurMaxFrere(NoeudTH arbre){
+		if(arbre==null) return 0;
+		return 1 + Math.max(profondeurMaxFrere(arbre.frereGauche),profondeurMaxFrere(arbre.frereDroit));
+	}
+	
+	private ArrayList<NoeudTH> listesFrereSorted(NoeudTH arbre){
+		ArrayList<NoeudTH> res = new ArrayList<NoeudTH>();
+		res = listesFrere2(arbre,res);
+	
+		
+		//On casse tous les lien de frere pour les refaire ensuite
+		for(int i = 0; i<res.size(); i++){
+			res.get(i).frereGauche=null;
+			res.get(i).frereDroit=null;
+		}
+		
+		
+		Collections.sort(res, (a, b) -> a.lettre.compareTo(b.lettre));
+		
+		
+		System.out.print("La liste triee des noeuds : ");
+		for(int i = 0; i<res.size(); i++){
+			System.out.print("["+res.get(i).lettre+"] ");
+		}
+		System.out.println();
+		
+		return res;
+	}
+	
+	private ArrayList<NoeudTH> listesFrere2(NoeudTH arbre, ArrayList<NoeudTH> liste){
+		liste.add(arbre);
+		if(arbre.frereGauche!=null){
+			listesFrere2(arbre.frereGauche,liste);
+		}
+		if(arbre.frereDroit!=null){
+			listesFrere2(arbre.frereDroit,liste);
+		}
+		return liste;
+	}
+	
+	public NoeudTH reequilibrage(NoeudTH arbre){
+		if(arbre==null) return arbre;
+		//reequilibre a la racine
+		arbre = reequilibrageFrere(arbre);
+		
+		System.out.println("----------------------------------");
+		
+		//besoin d'equilibrer que dans les fils
+		if(arbre.fils!=null){
+			System.out.println(arbre.lettre+" On prend le fils");
+			arbre.fils= reequilibrageFrere(arbre.fils);
+			reequilibrage2(arbre.fils);
+		}
+		
+		//simple deplacement dans l'arbre
+		if(arbre.frereGauche!=null){
+			System.out.println();
+			System.out.println(arbre.lettre+".frereGauche = "+arbre.frereGauche.lettre);
+			System.out.println(arbre.frereGauche.lettre+" lettre actuelle");
+			reequilibrage2(arbre.frereGauche);
+		}
+		if(arbre.frereDroit!=null){
+			System.out.println();
+			System.out.println(arbre.lettre+".frereDroit = "+arbre.frereDroit.lettre);
+			System.out.println(arbre.frereDroit.lettre+" lettre actuelle");
+			reequilibrage2(arbre.frereDroit);
+		}
+		return arbre;
+	}
+	
+	public NoeudTH reequilibrage2(NoeudTH arbre){
+		
+		//besoin d'equilibrer que dans les fils
+		if(arbre.fils!=null){
+			arbre.fils= reequilibrageFrere(arbre.fils);
+			reequilibrage2(arbre.fils);
+		}
+		
+		//simple deplacement dans l'arbre
+		if(arbre.frereGauche!=null){
+			System.out.println();
+			System.out.println(arbre.lettre+".frereGauche = "+arbre.frereGauche.lettre);
+			System.out.println(arbre.frereGauche.lettre+" lettre actuelle");
+			reequilibrage2(arbre.frereGauche);
+		}
+		if(arbre.frereDroit!=null){
+			System.out.println();
+			System.out.println(arbre.lettre+".frereDroit = "+arbre.frereDroit.lettre);
+			System.out.println(arbre.frereDroit.lettre+" lettre actuelle");
+			reequilibrage2(arbre.frereDroit);
+		}
+		return arbre;
+	}
+	
+	private NoeudTH reequilibrageFrere(NoeudTH arbre){
+		int nbFrere = nbDeFrere(arbre);
+		int profondeurMaxFrere = profondeurMaxFrere(arbre)-1;//On demarre a 0
+		
+		System.out.print(arbre.lettre+" fait parti de "+nbFrere+" freres avec pour Profondeur Max "+profondeurMaxFrere);
+		if(arbre.fils != null) System.out.println(" avec pour fils "+arbre.fils.lettre);
+		else System.out.println();
+		
+		//Si la profondeur max des freres est superieure a la valeure absolue
+		//Du log en base 2 du nb de frere (arbre non complet)
+		
+		if (profondeurMaxFrere>Math.abs(log2(nbFrere))){
+			ArrayList<NoeudTH> listeNoeud = listesFrereSorted(arbre);
+			return reformeFrere(listeNoeud);
+		}
+		
+		return arbre;
+	}
+	
+	private NoeudTH reformeFrere(ArrayList<NoeudTH> liste){
+		int elemMilieu = Math.abs(liste.size()/2);
+		
+		System.out.println("Le milieu est "+liste.get(elemMilieu).lettre);
+		
+	    ArrayList<NoeudTH> inf = new ArrayList<NoeudTH>(liste.subList(0, elemMilieu));
+	    ArrayList<NoeudTH> sup = new ArrayList<NoeudTH>(liste.subList(elemMilieu+1, liste.size()));
+	     
+	    if(inf.size()>0){
+	    	int elemMilieuInf = Math.abs(inf.size()/2);
+	    	System.out.println("Frere Gauche de "+liste.get(elemMilieu).lettre+" est "+ inf.get(elemMilieuInf).lettre);
+	    	liste.get(elemMilieu).frereGauche = inf.get(elemMilieuInf);
+	    }
+	     
+	    if(sup.size()>0){
+	    	int elemMilieuSup = Math.abs(sup.size()/2);
+	    	System.out.println("Frere Droit de "+liste.get(elemMilieu).lettre+" est "+ sup.get(elemMilieuSup).lettre);
+	    	liste.get(elemMilieu).frereDroit = sup.get(elemMilieuSup);
+	    }
+	    
+	    if(inf.size()>0){
+	    	reformeFrere(inf);
+	    }
+	    if(sup.size()>0){
+	    	reformeFrere(sup);
+	    }
+	    
+	    return liste.get(elemMilieu);
+	     
+	}
+		
+	
 	public void benchmark(File fileEntry) {
     	BufferedReader br = null;
     	
