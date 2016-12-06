@@ -46,91 +46,91 @@ public class MainProjet {
 
 			switch (choice) {
             
-            	case "0" :
-            		pt1.printPtree(pt1);
-            		break;
-            
-                case "1" :
-                    System.out.println("Entrez le mot a� inserer");
-                    scan.nextLine(); //On vide
-                    choice = scan.next();
-                    System.out.println("Resultat : "+ pt1.insert(pt1, choice));
-                    break;
-
-                case "2" :
-                    System.out.println("Entrez le mot recherche");
-                    scan.nextLine(); //On vide
-                    System.out.println("Resultat : "+ pt1.search(pt1, scan.next()));
-                    break;
-
-                case "3" :
-                    System.out.println("Entrez le mot a� supprimer");
-                    scan.nextLine(); //On vide
-                    System.out.println("Resultat : "+ pt1.delete(pt1, scan.nextLine()));
-                    break;
-
-                case "4" :
-                    System.out.println("Lancement de l'auto-test simple");
-                    pt1.insert(pt1, "arbre");
-                    pt1.insert(pt1, "arc");
-                    pt1.insert(pt1, "arbuste");
-                    pt2.insert(pt2, "artiste");
-                    pt2.insert(pt2, "destin");
-                    pt2.insert(pt2, "magique");
-                    pt1.fusion(pt1, pt2);
-                    pt1.displayPtree(pt1, 0);
-                    System.out.println("Resultat : " + pt1.search(pt1, "arbre"));
-                    pt1.allWord(pt1);
-                    break;
-                    
-                case "5" :
-                    System.out.println("Question 1.3");
-                    for(String s : tmp){
-                    	pt1.insert(pt1, s);
-                    }
-                    System.out.println("Nombre de mots = " + pt1.countWord(pt1));
-                    System.out.println("Mots dans l'arbre = ");
-                    pt1.allWord(pt1);
-                    break;
-                    
-                case "6" :
-                	System.out.println("PatriciaTrie Benchmark (en nanoseconde)");
-            		
-            		String clean = new String(new char[80]).replace('\0', '_');
-            		System.out.println(clean);
-            		
-            		String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
-                    		+ " %6$-6s | %7$-6s | %8$-6s",
-                    		"file", "build", "insert", "search", "delete", "fusion", 
-                    		"nbword", "deep");
-            	    System.out.println(value);
-            		    for (final File fileEntry : f.listFiles()) {
-            		    	pt1.benchmark(fileEntry);
-            		    }
-            		    System.out.println(clean);
+				case "0" :
+	        		pt1.printPtree(pt1);
+	        		break;
+	        
+	            case "1" :
+	                System.out.println("Entrez le mot a inserer");
+	                scan.nextLine(); //On vide
+	                choice = scan.next();
+	                System.out.println("Resultat : "+ pt1.insert(pt1, choice));
+	                break;
+	
+	            case "2" :
+	                System.out.println("Entrez le mot recherche");
+	                scan.nextLine(); //On vide
+	                System.out.println("Resultat : "+ pt1.search(pt1, scan.next()));
+	                break;
+	
+	            case "3" :
+	                System.out.println("Entrez le mot a supprimer");
+	                scan.nextLine(); //On vide
+	                System.out.println("Resultat : "+ pt1.delete(pt1, scan.nextLine()));
+	                break;
+	
+	            case "4" :
+	                System.out.println("Lancement de l'auto-test simple");
+	                pt1.insert(pt1, "arbre");
+	                pt1.insert(pt1, "arc");
+	                pt1.insert(pt1, "arbuste");
+	                pt2.insert(pt2, "artiste");
+	                pt2.insert(pt2, "destin");
+	                pt2.insert(pt2, "magique");
+	                pt1.fusion(pt1, pt2);
+	                pt1.displayPtree(pt1, 0);
+	                System.out.println("Resultat : " + pt1.search(pt1, "arbre"));
+	                pt1.allWord(pt1);
+	                break;
+	                
+	            case "5" :
+	                System.out.println("Question 1.3");
+	                for(String s : tmp){
+	                	pt1.insert(pt1, s);
+	                }
+	                System.out.println("Nombre de mots = " + pt1.countWord(pt1));
+	                System.out.println("Mots dans l'arbre = ");
+	                pt1.allWord(pt1);
+	                break;
+	                
+	            case "6" :
+	            	System.out.println("PatriciaTrie Benchmark (en nanoseconde)");
+	        		
+	        		String clean = new String(new char[80]).replace('\0', '_');
+	        		System.out.println(clean);
+	        		
+	        		String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
+	                		+ " %6$-6s | %7$-6s | %8$-6s",
+	                		"file", "build", "insert", "search", "delete", "fusion", 
+	                		"nbword", "deep");
+	        	    System.out.println(value);
+	        		    for (final File fileEntry : f.listFiles()) {
+	        		    	pt1.benchmark(fileEntry);
+	        		    }
+	        		    System.out.println(clean);
 				
-                    break;
-
-                case "7" :
-                	System.out.println("Lancement de l'auto-test avance");
-                    pt1.insert(pt1, "arbre");
-                    pt1.insert(pt1, "arc");
-                    pt1.insert(pt1, "arbuste");
-                    pt2.insert(pt2, "artiste");
-                    pt2.insert(pt2, "destin");
-                    pt2.insert(pt2, "magique");
-                    pt1.fusion(pt1, pt2);
-                    System.out.println("Medium deep is "+pt1.mediumDeep(pt1));
-                    System.out.println("nb ar prefix is "+pt1.getPrefix(pt1, "ar"));
-                    NoeudTH demo1 = pt1.convert(pt1);
-                    ArrayList<String> as = demo1.listeMots(demo1);
-                    System.out.println("Pat to Hyb");
-                    for(String s : as) {
-                    	System.out.println(s);
-                    }
-                    break;
-                    
-                case "8" :
+	                break;
+	
+	            case "7" :
+	            	System.out.println("Lancement de l'auto-test avance");
+	                pt1.insert(pt1, "arbre");
+	                pt1.insert(pt1, "arc");
+	                pt1.insert(pt1, "arbuste");
+	                pt2.insert(pt2, "artiste");
+	                pt2.insert(pt2, "destin");
+	                pt2.insert(pt2, "magique");
+	                pt1.fusion(pt1, pt2);
+	                System.out.println("Medium deep is "+pt1.mediumDeep(pt1));
+	                System.out.println("nb ar prefix is "+pt1.getPrefix(pt1, "ar"));
+	                NoeudTH demo1 = pt1.convert(pt1);
+	                ArrayList<String> as = demo1.listeMots(demo1);
+	                System.out.println("Pat to Hyb");
+	                for(String s : as) {
+	                	System.out.println(s);
+	                }
+	                break;
+	                
+	            case "8" :
                 	
             		insertOne(f.listFiles()[0]);
 				
@@ -142,7 +142,7 @@ public class MainProjet {
                 	break;
                 	
                 case "101" :
-                	System.out.println("Entrez le mot a� inserer");
+                	System.out.println("Entrez le mot a inserer");
                 	scan.nextLine(); //On vide
                     Exemple.ajouterMot(Exemple, scan.nextLine());
                     System.out.println("Ajout termine");
@@ -215,6 +215,22 @@ public class MainProjet {
                     break;
                 	
                 case "112" :
+                	Exemple.ajouterMot(Exemple, "Dent");
+                	Exemple.ajouterMot(Exemple, "Baguette");
+                	Exemple.ajouterMot(Exemple, "Arbre");
+                	Exemple.ajouterMot(Exemple, "Xylophone");
+                	Exemple.ajouterMot(Exemple, "Zero");
+                	Exemple.ajouterMot(Exemple, "Rat");
+                	Exemple.ajouterMot(Exemple, "Sol");
+                	Exemple.ajouterMot(Exemple, "Tout");
+                	Exemple.ajouterMot(Exemple, "Utopie");
+                	
+                	System.out.println("Entrez pour passer au reequilibrage");
+                	scan.nextLine(); //On vide
+                	scan.nextLine();
+                	
+                	Exemple = Exemple.reequilibrage(Exemple);
+                	
                 	break;
                 	
                 	
@@ -270,7 +286,7 @@ public class MainProjet {
         System.out.println("109. Hybrides : Nombre de mot qui contiennent un prefixe");
         System.out.println("110. Hybrides : Conversion Hybrides => Patricia");
         System.out.println("111. Hybrides : Benchmark");
-        System.out.println("112. Hybrides : Reequilibrage");
+        System.out.println("112. Hybrides : Ajout de mot et Reequilibrage");
 	}
 	
 	public static void insertOne(File fileEntry) {
