@@ -303,7 +303,7 @@ public class NoeudTH {
 		}
 	}
 	
-	private ArrayList<String> listeMots2(NoeudTH arbre, ArrayList<String> liste, String strParcourue){
+	public ArrayList<String> listeMots2(NoeudTH arbre, ArrayList<String> liste, String strParcourue){
 		String nouvelleStrParcourue = strParcourue.concat(arbre.lettre); //on ajoute la lettre actuelle
 		if(arbre.finMot){
 			liste.add(nouvelleStrParcourue);
@@ -639,71 +639,116 @@ public class NoeudTH {
 	    return liste.get(elemMilieu);
 	     
 	}
-		
-	
-	public void benchmark(File fileEntry) {
-    	BufferedReader br = null;
-    	
-    	NoeudTH demo1 = new NoeudTH();
-    	
-        long startTime, endTime, duration, total;
-		total = 0;
-		try {
-			br = new BufferedReader(new FileReader(fileEntry));
-		
-        	String line = br.readLine();
 
-            while (line != null) {
-            	startTime = System.nanoTime();
-            	demo1.ajouterMotSilence(demo1, line);
-                endTime = System.nanoTime();
-                duration = (endTime - startTime);
-                total+=duration;
-                line = br.readLine();
-            }
-            
-		} catch (IOException e) {
-			e.printStackTrace();
-            
-		} finally {
+
+	public void benchmark(File f) {
+		BufferedReader br = null;
+
+		long startTime, endTime, duration, total;
+		long tbtime = 0;
+		long titime = 0;
+		long tstime = 0;
+		long dltime = 0;
+		int cw, cd;
+
+		int tcw = 0;
+		int tcd = 0;
+		int tf = f.listFiles().length;
+
+		String clean = new String(new char[80]).replace('\0', '_');
+		System.out.println(clean);
+
+		String mean = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s | %6$-6s | %7$-6s",
+				"file", "build", "insert", "search", "delete", 
+				"nbword", "deep");
+		System.out.println(mean);
+
+		for (final File fileEntry : f.listFiles()) {
+			NoeudTH demo1 = new NoeudTH();
+			total = 0;
+			cw = 0;
+			cd = 0;
+
 			try {
-				br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
+				br = new BufferedReader(new FileReader(fileEntry));
+
+				String line = br.readLine();
+
+				while (line != null) {
+					startTime = System.nanoTime();
+					demo1.ajouterMotSilence(demo1, line);
+					endTime = System.nanoTime();
+					duration = (endTime - startTime);
+					total+=duration;
+					line = br.readLine();
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+
+			} finally {
+				try {
+					br.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
+			long build = total;
+			tbtime+=total;
+
+			cw = demo1.comptageMots(demo1)-3;
+			tcw+=cw;
+			cd = demo1.hauteur(demo1);
+			tcd+=cd;
+
+			startTime = System.nanoTime();
+			demo1.ajouterMotSilence(demo1, "arbre");
+			demo1.ajouterMotSilence(demo1, "arc");
+			demo1.ajouterMotSilence(demo1, "arbuste");
+			endTime = System.nanoTime();
+			duration = (endTime - startTime);
+			long insertime = duration;
+			titime+=duration;
+
+			startTime = System.nanoTime();
+			demo1.recherche(demo1, "arbre");
+			demo1.recherche(demo1, "arc");
+			demo1.recherche(demo1, "arbuste");
+			endTime = System.nanoTime();
+			duration = (endTime - startTime);
+			long searchtime = duration;
+			tstime+=duration;
+
+			startTime = System.nanoTime();
+			demo1.suppression(demo1, "artiste");
+			demo1.suppression(demo1, "destin");
+			demo1.suppression(demo1, "magique");
+			endTime = System.nanoTime();
+			duration = (endTime - startTime);
+			long deletetime = duration;
+			dltime+=duration;
+
+
+			String value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s | %6$-6s | %7$-6s",
+					fileEntry.getName(), build, insertime/3,  searchtime/3,  deletetime/3, cw, cd);
+			System.out.println(value);
 		}
-		long build = total;
-		
-		startTime = System.nanoTime();
-		demo1.ajouterMotSilence(demo1, "arbre");
-		demo1.ajouterMotSilence(demo1, "arc");
-		demo1.ajouterMotSilence(demo1, "arbuste");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long insertime = duration;
-        
-        startTime = System.nanoTime();
-        demo1.recherche(demo1, "arbre");
-        demo1.recherche(demo1, "arc");
-        demo1.recherche(demo1, "arbuste");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long searchtime = duration;
-  
-        startTime = System.nanoTime();
-        demo1.suppression(demo1, "artiste");
-        demo1.suppression(demo1, "destin");
-        demo1.suppression(demo1, "magique");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long deletetime = duration;
-        
-        
-        String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s | %6$-6s | %7$-6s",
-        		fileEntry.getName(), build, insertime/3,  searchtime/3,  deletetime/3, demo1.comptageMots(demo1)-3, demo1.hauteur(demo1));
-	    System.out.println(value);
-    }
-	
+
+		System.out.println(clean);
+		String value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+				+ " %6$-6s | %7$-6s",
+				"Moyen", tbtime/tf, (titime/3)/tf, (tstime/3)/tf, (dltime/3)/tf, 
+				tcw/tf, tcd/tf);
+		System.out.println(value);
+
+		value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+				+ " %6$-6s | %7$-6s",
+				"Total", tbtime, titime/3, tstime/3, dltime/3, 
+				tcw, tcd);
+		System.out.println(value);
+		System.out.println(clean);
+	}
+
 }
 
 

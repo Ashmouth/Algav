@@ -36,6 +36,7 @@ class PatriciaTrie {
 		data = d;
 	}
 
+	//Permet de récupéré le prefix commun de deux mots
     public String findPrefix(String str1, String str2) {
         for (int i = str2.length(); i > 0; i--) {
             String tmp = str2.substring(0, i);
@@ -46,10 +47,12 @@ class PatriciaTrie {
         return "";
     }
     
+    //Appel displayPtree pour afficher l'arbre
     public void printPtree(PatriciaTrie pt) {
     	displayPtree(pt, 0);
     }
     
+    //Afficher l'arbre
     public void displayPtree(PatriciaTrie pt, int deep) {
     	HashMap<String, PatriciaTrie> tmp = pt.getChilds();
     	String space = new String(new char[deep]).replace('\0', ' ');
@@ -62,6 +65,7 @@ class PatriciaTrie {
     	}
     }
     
+    //Recopie la hashmap du PT src dans la PT dst et la supprime
     public void cloneAll(PatriciaTrie src, PatriciaTrie dst) {
 		HashMap<String, PatriciaTrie> ptchilds = src.getChilds();
 		HashMap<String, PatriciaTrie> ntchilds = dst.getChilds();
@@ -75,16 +79,9 @@ class PatriciaTrie {
 		dst.setChilds(ntchilds);
 	}
     
-    public boolean search(PatriciaTrie ptree, String word) {
-    	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
-    	String first = word.substring(0, 1);
-    	
-    	if (ptchilds.containsKey(first)) {
-			return subsearch(ptchilds.get(first), word);
-		}
-    	return false;
-    }
-    
+
+    //Sous fonction de la recherche, test si le mots est vide
+    //Et si il y a le caractère de fin de mot sinon lance une recursion
     public boolean subsearch(PatriciaTrie ptree, String word) {
     	
     	String ptdata = ptree.getData();
@@ -108,6 +105,19 @@ class PatriciaTrie {
     	}
     }
     
+    //Lance une récursion sur chaque fils du noeud racine
+    public boolean search(PatriciaTrie ptree, String word) {
+    	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
+    	String first = word.substring(0, 1);
+    	
+    	if (ptchilds.containsKey(first)) {
+			return subsearch(ptchilds.get(first), word);
+		}
+    	return false;
+    }
+    
+    
+    //Lance une récursion sur chaque fils du noeud racine
     public boolean delete(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String first = word.substring(0, 1);
@@ -215,6 +225,7 @@ class PatriciaTrie {
     	return res;
     }
     
+	//Lance la fonction countWord avec les bon paramètre initial
     public int countWord(PatriciaTrie ptree) {
     	return countWord(ptree, 0);
     }
@@ -232,6 +243,7 @@ class PatriciaTrie {
     	return res;
     }
 
+   //Lance la fonction countDeep avec les bon paramètre initial
     public int countDeep(PatriciaTrie ptree) {
     	if (ptree.getData().equals(endword)) {
     		return countDeep(ptree, 0);
@@ -252,6 +264,7 @@ class PatriciaTrie {
         }
     }
     
+  //Lance la fonction arrayWord avec les bon paramètre initial
     public ArrayList<String> arrayWord(PatriciaTrie ptree) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	ArrayList<String> acc = new ArrayList<String>();
@@ -277,6 +290,7 @@ class PatriciaTrie {
         }
     }
     
+    //Lance la fonction allWord avec les bon paramètre initial
     public void allWord(PatriciaTrie ptree) {
     	ArrayList<String> acc = new ArrayList<String>();
     	acc = arrayWord(ptree);
@@ -285,6 +299,7 @@ class PatriciaTrie {
     	}
     }
     
+    //Renvoi une copie du Patricia trie passer en paramètre
     public PatriciaTrie copy(PatriciaTrie ptree) {
     	PatriciaTrie nptree = 
     			new PatriciaTrie(ptree.getChilds(), ptree.getData());
@@ -294,6 +309,7 @@ class PatriciaTrie {
     	return nptree;
     }
     
+    //Sépare un PT par rapport à son prefix et le mot donner en argument
     public void split(PatriciaTrie ptree, String word) {
     	
     	String ptdata = ptree.getData();
@@ -415,6 +431,7 @@ class PatriciaTrie {
     	}
     }
     
+  //Lance une récursion sur chaque fils du noeud racine
     public int getPrefix(PatriciaTrie ptree, String word) {
     	HashMap<String, PatriciaTrie> ptchilds = ptree.getChilds();
     	String first = word.substring(0, 1);
@@ -426,7 +443,7 @@ class PatriciaTrie {
     }
     
     
-    private void displayTH(NoeudTH tree, String acc){
+    public void displayTH(NoeudTH tree, String acc){
     	
 		if(tree.isFinMot()){
 			System.out.println(acc);
@@ -478,11 +495,10 @@ class PatriciaTrie {
     		}
     	}
     	
-    	//TODO Reeiquilibrage
-    	
     	return root;
     }
     
+  //Lance une récursion sur chaque fils du noeud racine
     public NoeudTH convert(PatriciaTrie ptree) {
     	NoeudTH root = new NoeudTH();
     	NoeudTH node = root;
@@ -494,87 +510,130 @@ class PatriciaTrie {
     		old_r.setFrereDroit(node);
 		}
     	
-    	//TODO Reeiquilibrage
-    	displayTH(root,"");
+    	root = root.getFrereDroit();
+//    	root.reequilibrage2(root);
+    	//Rééquilibrage won't work for some reason :/
     	
     	return root;
     }
-    
-    
-    public void benchmark(File fileEntry) {
-    	BufferedReader br = null;
-    	PatriciaTrie pt1 = new PatriciaTrie("@");
-        PatriciaTrie pt2 = new PatriciaTrie("@");
-        long startTime, endTime, duration, total;
-		total = 0;
-		try {
-			br = new BufferedReader(new FileReader(fileEntry));
-		
-        	String line = br.readLine();
 
-            while (line != null) {
-            	startTime = System.nanoTime();
-                pt1.insert(pt1, line);
-                endTime = System.nanoTime();
-                duration = (endTime - startTime);
-                //System.out.println(line + " insert in " + duration);
-                total+=duration;
-                line = br.readLine();
-            }
-            
-		} catch (IOException e) {
-			e.printStackTrace();
-            
-		} finally {
-			try {
-				br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		int cw = pt1.countWord(pt1);
-		int cd = pt1.countDeep(pt1);
+    public void benchmark(File f) {
+
+    	String clean = new String(new char[80]).replace('\0', '_');
+    	System.out.println(clean);
+
+    	String mean = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+    			+ " %6$-6s | %7$-6s | %8$-6s",
+    			"file", "build", "insert", "search", "delete", "fusion", 
+    			"nbword", "deep");
+    	System.out.println(mean);
+
+    	long tbtime = 0;
+		long titime = 0;
+		long tstime = 0;
+		long tftime = 0;
+		long dltime = 0;
 		
-		long build = total;
+		int tcw = 0;
+		int tcd = 0;
+		int tf = f.listFiles().length;
+    	
+    	for (final File fileEntry : f.listFiles()) {
+
+    		BufferedReader br = null;
+    		PatriciaTrie pt1 = new PatriciaTrie("@");
+    		PatriciaTrie pt2 = new PatriciaTrie("@");
+    		long startTime, endTime, duration, total;
+    		total = 0;
+    		try {
+    			br = new BufferedReader(new FileReader(fileEntry));
+
+    			String line = br.readLine();
+
+    			while (line != null) {
+    				startTime = System.nanoTime();
+    				insert(pt1, line);
+    				endTime = System.nanoTime();
+    				duration = (endTime - startTime);
+    				//System.out.println(line + " insert in " + duration);
+    				total+=duration;
+    				line = br.readLine();
+    			}
+
+    		} catch (IOException e) {
+    			e.printStackTrace();
+
+    		} finally {
+    			try {
+    				br.close();
+    			} catch (IOException ex) {
+    				ex.printStackTrace();
+    			}
+    		}
+    		int cw = countWord(pt1);
+    		tcw+=cw;
+    		int cd = countDeep(pt1);
+    		tcd+=cd;
+
+    		long build = total;
+    		tbtime+=build;
+
+    		startTime = System.nanoTime();
+    		insert(pt1, "arbre");
+    		insert(pt1, "arc");
+    		insert(pt1, "arbuste");
+    		endTime = System.nanoTime();
+    		duration = (endTime - startTime);
+    		long insertime = duration;
+    		titime+=duration;
+
+    		startTime = System.nanoTime();
+    		search(pt1, "arbre");
+    		search(pt1, "arc");
+    		search(pt1, "arbuste");
+    		endTime = System.nanoTime();
+    		duration = (endTime - startTime);
+    		long searchtime = duration;
+    		tstime+=duration;
+
+    		insert(pt2, "artiste");
+    		insert(pt2, "destin");
+    		insert(pt2, "magique");
+    		startTime = System.nanoTime();
+    		fusion(pt1, pt2);
+    		endTime = System.nanoTime();
+    		duration = (endTime - startTime);
+    		long fusiontime = duration;
+    		tftime+=duration;
+
+    		startTime = System.nanoTime();
+    		delete(pt1, "artiste");
+    		delete(pt1, "destin");
+    		delete(pt1, "magique");
+    		endTime = System.nanoTime();
+    		duration = (endTime - startTime);
+    		long deletetime = duration;
+    		dltime+=duration;
+
+    		String value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+    				+ " %6$-6s | %7$-6s | %8$-6s",
+    				fileEntry.getName(), build, insertime/3, searchtime/3, deletetime/3, 
+    				fusiontime/3, cw, cd);
+    		System.out.println(value);
+    	}
+    	
+    	System.out.println(clean);
+    	String value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+				+ " %6$-6s | %7$-6s | %8$-6s",
+				"Moyen", tbtime/tf, (titime/3)/tf, (tstime/3)/tf, (dltime/3)/tf, 
+				(tftime/3)/tf, tcw/tf, tcd/tf);
+		System.out.println(value);
 		
-		startTime = System.nanoTime();
-		insert(pt1, "arbre");
-        insert(pt1, "arc");
-        insert(pt1, "arbuste");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long insertime = duration;
-        
-        startTime = System.nanoTime();
-		search(pt1, "arbre");
-		search(pt1, "arc");
-		search(pt1, "arbuste");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long searchtime = duration;
-        
-        insert(pt2, "artiste");
-        insert(pt2, "destin");
-        insert(pt2, "magique");
-        startTime = System.nanoTime();
-        fusion(pt1, pt2);
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long fusiontime = duration;
-        
-        startTime = System.nanoTime();
-        delete(pt1, "artiste");
-        delete(pt1, "destin");
-        delete(pt1, "magique");
-        endTime = System.nanoTime();
-        duration = (endTime - startTime);
-        long deletetime = duration;
-        
-        String value = String.format("%1$-20s | %2$-8s | %3$-6s | %4$-6s | %5$-6s |"
-        		+ " %6$-6s | %7$-6s | %8$-6s",
-        		fileEntry.getName(), build, insertime/3, searchtime/3, deletetime/3, 
-        		fusiontime/3, cw, cd);
-	    System.out.println(value);
+    	value = String.format("%1$-20s | %2$-10s | %3$-6s | %4$-6s | %5$-6s |"
+				+ " %6$-6s | %7$-6s | %8$-6s",
+				"Total", tbtime, titime/3, tstime/3, dltime/3, 
+				tftime/3, tcw, tcd);
+		System.out.println(value);
+    	System.out.println(clean);
     }
-
 }
