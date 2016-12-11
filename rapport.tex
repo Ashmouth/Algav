@@ -84,7 +84,7 @@ Pour les fonctions avec un d\'eplacement sp\'ecial, il est expliqu\'e directemen
 La fonction de r\'e\'equilibrage est a d\'etaill\'ee :\\
 Le r\'e\'equilibrage d'un trie hybride peut se faire au niveau des freres en les
 consid\'erants comme des noeuds qu'on pourrait disposer de facon a obtenir un
-arbre complet (voir diapo de pr\'esentation).\\
+arbre complet.\\
 Pour voir si les freres sont d\'es\'equilibr\'es (cf. ne forme pas un arbre complet)
 on regarde si la profondeur totale des freres est sup\'erieure au log en base 2 du
 nombre de frere.\\
@@ -98,6 +98,14 @@ le milieu de la liste gauche et pour frere droit le milieu de la liste droite.\\
 On effectue ce test de r\'e\'equilibrage pour chaque liste de frere c'est a dire a
 chauque d\'eplacement vers le bas dans l'arbre :\\
 - arbre.fils= reequilibrageFrere(arbre.fils);\\
+
+\newpage
+
+Hybrid-Tries avant r\'e\'equilibrage\\\\
+\includegraphics[scale=0.5]{HybBefore.png}
+\\\\
+Hybrid-Tries apr\`es r\'e\'equilibrage\\\\
+\includegraphics[scale=0.5]{HybAfter.png}
 
 \newpage
 
@@ -186,34 +194,34 @@ contenant tout les carat\`eres possible pour toute la profondeur de l'arbre)\\
 
 Calcule des complexit\'ees des Tries Hybrides : (en nombre de comparaison)\\
 
-ajouterMot = O 5 * profondeur de l'arbre + longeur du mot\\
-\Rightarrow(5 comparaisons par noeud puis par lettre si nouveau mot sans lettre existante)\\
+ajouterMot = O (5 * profondeur de l'arbre + longeur du mot)\\
+(5 comparaisons par noeud puis par lettre si nouveau mot sans lettre existante)\\
 
-recherche = O 4 * (longeur du mot)\\
-\Rightarrow(5 comparaisons par lettre)\\
+recherche = O (4 * (longeur du mot))\\
+(5 comparaisons par lettre)\\
 
-comptageMots = O 2 * nb de noeud\\
+comptageMots = O (2 * nb de noeud)\\
 
-listeMots = O 1 + (4 * nb de noeud) \\
+listeMots = O (1 + (4 * nb de noeud)) \\
 
-comptageNil = O nb de noeud\\
+comptageNil = O (nb de noeud)\\
 
-hauteur = O nb de noeud\\
+hauteur = O (nb de noeud)\\
 
-profondeurMoyenne = O 1 + (4 * nb de noeud)\\
+profondeurMoyenne = O (1 + (4 * nb de noeud))\\
 
-prefixe = O (2 + (4 * longeur du prefixe)) + (2 + (2 * nb de noeud))\\
-prefixe = O 4 + (4 * longeur du prefixe) + (2 * nb de noeud)\\
-\Rightarrow (complexit\'e de deplacePrefixe puis de comptageMots)\\
+prefixe = O ((2 + (4 * longeur du prefixe)) + (2 + (2 * nb de noeud)))\\
+prefixe = O (4 + (4 * longeur du prefixe) + (2 * nb de noeud))\\
+(complexit\'e de deplacePrefixe puis de comptageMots)\\
 
-suppression = O 1 + (4 * (longeur du mot)) + (hauteur de l'arbre) + (4 * longeur du mot * hauteur de l'arbre\\
-\Rightarrow ( complexit\'e de recherche puis de unSeulMot et enfin de suppression2)\\
+suppression = O (1 + (4 * (longeur du mot)) + (hauteur de l'arbre) + (4 * longeur du mot * hauteur de l'arbre))\\
+(complexit\'e de recherche puis de unSeulMot et enfin de suppression2)\\
 
-Conversion Hybrides \Rightarrow Patricia = O 1 + (4 * nb de noeud) + (nb de mot * (5 + cloneAll * (longeur du mot)))\\
-\Rightarrow (complexit\'e de listeMots puis de insert)\\
+Conversion Hybrides vers Patricia = O (1 + (4 * nb de noeud) + (nb de mot * (5 + cloneAll * (longeur du mot))))\\
+(complexit\'e de listeMots puis de insert)\\
 
-reequilibrage \Rightarrow O (4 * Largeur de l'arbre) * nb de noeud\\
-\Rightarrow(nbDeFrere puis profondeurMaxFrere. Ensuite listesFrereSorted et reformeFrere pour chaque branche)\\
+reequilibrage = O ((4 * Largeur de l'arbre) * nb de noeud)\\
+(nbDeFrere puis profondeurMaxFrere. Ensuite listesFrereSorted et reformeFrere pour chaque branche)\\
 
 
 \newpage
