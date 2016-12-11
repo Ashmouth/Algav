@@ -1,5 +1,58 @@
 # Devoir de Programmation : Tries
 
+## Introduction
+
+Dans ce Devoir de Programmation, l'objectif est d'implémenter et de comparer les
+deux structures d'arbres de Patricia-Tries et de Hybride-Tries, afin de
+déterminer lequel est meilleur.
+
+## Choix de la Structure
+
+### Le Patricia-Tries
+
+Lors de l'implémentation de cet algorithme un problème c'est posé, le
+choix de la structure.
+
+Premièrement, la structure était un objet composé d'un préfixe et d'un vecteur de
+caractère ainsi que d'un second vecteur contenant des pointeurs vers les
+Patricia-tries fils, le problème étant la taille du vecteur en mémoire ainsi que
+le nombre de pointeur vers null. De plus, en java, un caractère ne peut etre mis
+à null, une simple modification aurait été de changer le vecteur de caractère en
+vecteur de chaine, mais la mémoire restait un problème.
+
+La seconde était d'utiliser des Array-list, mais cela allait à l'encontre des
+arbres et des exemples montrés par les nos professeurs, de plus la complexité en
+pire cas aurait été de parcourir chaque caractères * la profondeur.
+
+La troisième structure implémentée a été une simple hash-map avec comme clé le
+préfixe et en valeur un Patricia-Tries, malheureusement cette structure a été
+abandonné, car elle forçait la plupart des algorithmes à devoir parcourir toute
+les clés de la hash-map comme le dernier algorithme ce qui faisait perdre tout
+l'intéret d'utiliser des hash-map.
+
+La dernière implémentation, donc celle utilisée dans notre code, est un préfixe
+avec une hash-map composé de clés valant la première lettre du préfixe du fils
+et en valeur le fils.
+L'arbre initial possède pour racine le mot vide, la structure ne présente aucun pointeur
+vers null, car tous les Patricias-Tries sont créés s'il y a l'existence d'une
+lettres et la hash-map est créé par défauts meme s'il se trouve etre vide.
+
+Explication de la fonction de fusion :
+La fonction parcours les deux arbres chacun au meme niveau et test si
+les préfixes sont similaires.
+Si oui elle insère chaque clé n'étant pas présente dans le premier arbre dans
+celui-ci, si elle existe, la fonction de fusion est alors lancée sur les deux
+fils.
+Si les préfixes sont différents, la fonction sépare les préfixes en deux parties
+la racine commune et le reste des deux préfixes, puis une récursion est lancée
+sur le nouveau noeud de la racine commune.
+
+### Le Hybride-Tries
+
+TODO
+
+## Réponse aux Questions
+
 ### Question 1.1 : 
 
 Le caractère pour le fin d'un mot est '@'
@@ -254,10 +307,10 @@ winters_tale.txt     | 12732129 | 533    | 960    | 1066   | 3714   | 28
 __________________________________________________________________________
 ```
 
-### Conclusion :
+## Conclusion :
 
-Sur quelque instance le Patricia-Tries est meilleur que le Hybride-Tries, 
-néanmoins, en moyen l'Hybride est moins performent en construction mais
+Sur quelque instance le Patricia-Tries est meilleur que le Hybride-Tries,
+néanmoins, en moyen l'Hybride est moins performant en construction mais
 ensuite il est plus rapide que le Patricia-Tries pour les fonctions d'insertion,
 d'ajout, de suppression et de recherche. La hauteur du trie hybride sans reequilibrage
 est par contre beaucoup plus grande que celle du Patricia.
