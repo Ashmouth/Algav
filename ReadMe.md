@@ -128,29 +128,37 @@ contenant tout les caratères possible pour toute la profondeur de l'arbre)
 ---
 
 
-Calcule des complexitées au pire Tries Hybrides : (nombre de comparaison)
 
-ajouterMot = Θ 5 * (longeur du mot)
+Calcule des complexitées des Tries Hybrides : (en nombre de comparaison)
 
-recherche = Θ 4 * (longeur du mot)
+ajouterMot = O 5 * profondeur de l'arbre + longeur du mot
+=>(5 comparaisons par noeud puis par lettre si nouveau mot sans lettre existante)
 
-comptageMots = Θ 2 * nb de noeud
+recherche = O 4 * (longeur du mot)
+=>(5 comparaisons par lettre)
 
-listeMots = Θ 1 + (4 * nb de noeud) 
+comptageMots = O 2 * nb de noeud
 
-comptageNil = Θ nb de noeud
+listeMots = O 1 + (4 * nb de noeud) 
 
-hauteur = Θ nb de noeud
+comptageNil = O nb de noeud
 
-profondeurMoyenne = Θ 1 + (4 * nb de noeud)
+hauteur = O nb de noeud
 
-prefixe = Θ (2 + (4 * longeur du prefixe)) + (2 + (2 * nb de noeud))
-prefixe = Θ 4 + (4 * longeur du prefixe) + (2 * nb de noeud)
+profondeurMoyenne = O 1 + (4 * nb de noeud)
 
-suppression = Θ 1 + (4 * (longeur du mot)) + (hauteur de l'arbre) + (4 * longeur du mot * hauteur de l'arbre)
+prefixe = O (2 + (4 * longeur du prefixe)) + (2 + (2 * nb de noeud))
+prefixe = O 4 + (4 * longeur du prefixe) + (2 * nb de noeud)
+=> (complexité de deplacePrefixe puis de comptageMots)
 
-Conversion Hybrides => Patricia = 1 + (4 * nb de noeud) + (nb de mot * (5 + cloneAll * (longeur du mot)))
+suppression = O 1 + (4 * (longeur du mot)) + (hauteur de l'arbre) + (4 * longeur du mot * hauteur de l'arbre
+=> ( complexité de recherche puis de unSeulMot et enfin de suppression2)
 
+Conversion Hybrides => Patricia = O 1 + (4 * nb de noeud) + (nb de mot * (5 + cloneAll * (longeur du mot)))
+=> (complexité de listeMots puis de insert)
+
+reequilibrage => O (4 * Largeur de l'arbre) * nb de noeud
+=>(nbDeFrere puis profondeurMaxFrere. Ensuite listesFrereSorted et reformeFrere pour chaque branche)
 
 
 
