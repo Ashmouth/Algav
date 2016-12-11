@@ -1,0 +1,18 @@
+Chaque noeud hybride est constitué d'une lettre, d'un bollean pour savoir si on est a la fin d'un mot, d'un fil et de 2 freres.
+Lorsque qu'un noeud a une lettre égale a null c'est que l'arbre est vide.
+
+L'implémentation est ensuite en accord avec la structure des tries hybrides vu en cours.
+
+Toutes les fonctions qui néccesite de parcourir l'arbre utilise la récursivité afin d'avoir le code le plus simple possible.
+
+Pour les fonctions avec un déplacement spécial, il est expliqué directement dans le code par des commentaires.
+
+La fonction de rééquilibrage est a détaillée :
+Le rééquilibrage d'un trie hybride peut se faire au niveau des freres en les considérants comme des noeuds qu'on pourrait disposer de facon a obtenir un arbre complet (voir diapo de présentation).
+Pour voir si les freres sont déséquilibrés (cf. ne forme pas un arbre complet) on regarde si la profondeur totale des freres est supérieure au log en base 2 du nombre de frere.
+- ligne 604 : if (profondeurMaxFrere>Math.abs(log2(nbFrere)))
+Dans ce cas la on appele listesFrereSorted qui récupere tous les frere, supprime leur lien frereGauche et frereDroit, puis les classe par ordre de leur lettre.
+Puis on renvoie reformeFrere qui s'occupe de replacer les noeuds dans un arbre complet.
+reformeFrere prennant à chaque fois le milieu de la liste avec pour frere gauche le milieu de la liste gauche et pour frere droit le milieu de la liste droite.
+On effectue ce test de rééquilibrage pour chaque liste de frere c'est a dire a chauqe déplacement vers le bas dans l'arbre :
+- arbre.fils= reequilibrageFrere(arbre.fils);
